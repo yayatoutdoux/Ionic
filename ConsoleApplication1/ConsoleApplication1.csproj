@@ -8161,6 +8161,7 @@
     <None Include="App\src\pages\account\account.scss" />
     <None Include="App\src\pages\login\login.scss" />
     <None Include="App\src\pages\map\map.scss" />
+    <None Include="App\src\pages\garden\garden.scss" />
     <None Include="App\src\pages\schedule-filter\schedule-filter.scss" />
     <None Include="App\src\pages\schedule\schedule.scss" />
     <None Include="App\src\pages\signup\signup.scss" />
@@ -17529,6 +17530,7 @@
     <Content Include="App\src\pages\account\account.html" />
     <Content Include="App\src\pages\login\login.html" />
     <Content Include="App\src\pages\map\map.html" />
+    <Content Include="App\src\pages\garden\garden.html" />
     <Content Include="App\src\pages\schedule-filter\schedule-filter.html" />
     <Content Include="App\src\pages\schedule\schedule.html" />
     <Content Include="App\src\pages\session-detail\session-detail.html" />
@@ -19967,6 +19969,7 @@
     <TypeScriptCompile Include="App\src\pages\account\account.ts" />
     <TypeScriptCompile Include="App\src\pages\login\login.ts" />
     <TypeScriptCompile Include="App\src\pages\map\map.ts" />
+    <TypeScriptCompile Include="App\src\pages\garden\garden.ts" />
     <TypeScriptCompile Include="App\src\pages\schedule-filter\schedule-filter.ts" />
     <TypeScriptCompile Include="App\src\pages\schedule\schedule.ts" />
     <TypeScriptCompile Include="App\src\pages\session-detail\session-detail.ts" />

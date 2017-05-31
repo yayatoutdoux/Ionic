@@ -17,6 +17,7 @@ import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
 import { MapPage } from '../pages/map/map';
 import { SchedulePage } from '../pages/schedule/schedule';
+import { GardenPage } from '../pages/garden/garden';
 import { ScheduleFilterPage } from '../pages/schedule-filter/schedule-filter';
 import { SessionDetailPage } from '../pages/session-detail/session-detail';
 import { SignupPage } from '../pages/signup/signup';
@@ -39,6 +40,7 @@ import { UserData } from '../providers/user-data';
     MapPage,
     PopoverPage,
     SchedulePage,
+    GardenPage,
     ScheduleFilterPage,
     SessionDetailPage,
     SignupPage,
@@ -55,6 +57,7 @@ import { UserData } from '../providers/user-data';
       links: [
         { component: TabsPage, name: 'TabsPage', segment: 'tabs' },
         { component: SchedulePage, name: 'Schedule', segment: 'schedule' },
+        { component: GardenPage, name: 'Garden', segment: 'garden' },
         { component: SessionDetailPage, name: 'SessionDetail', segment: 'sessionDetail/:name' },
         { component: ScheduleFilterPage, name: 'ScheduleFilter', segment: 'scheduleFilter' },
         { component: SpeakerListPage, name: 'SpeakerList', segment: 'speakerList' },
@@ -79,6 +82,7 @@ import { UserData } from '../providers/user-data';
     MapPage,
     PopoverPage,
     SchedulePage,
+    GardenPage,
     ScheduleFilterPage,
     SessionDetailPage,
     SignupPage,
