@@ -421,6 +421,14 @@
       "lat": 43.071584,
       "lng": -89.380120,
       "plantIds": [ 1, 1 ]
+    },
+    {
+      "name": "Second garden",
+      "description": "Second garden",
+      "profilePic": "assets/img/speakers/mouse.jpg",
+      "lat": 43.071584,
+      "lng": -89.380120,
+      "plantIds": [ 1, 1 ]
     }
   ]
 }
