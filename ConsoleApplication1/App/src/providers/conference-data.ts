@@ -140,6 +140,12 @@ export class ConferenceData {
     });
   }
 
+  getGardens() {
+      return this.load().map((data: any) => {
+          return data.gardens;
+      });
+  }
+
   getTracks() {
     return this.load().map((data: any) => {
       return data.tracks.sort();

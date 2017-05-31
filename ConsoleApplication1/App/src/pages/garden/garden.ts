@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
-import { AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, ToastController, LoadingController, Refresher } from 'ionic-angular';
+import { ActionSheet, ActionSheetController, Config, AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, ToastController, LoadingController, Refresher } from 'ionic-angular';
 
 /*
   To learn how to use third party libs in an
@@ -12,6 +13,7 @@ import { ConferenceData } from '../../providers/conference-data';
 import { UserData } from '../../providers/user-data';
 
 import { SessionDetailPage } from '../session-detail/session-detail';
+import { GardenDetailPage } from '../garden-detail/garden-detail';
 
 
 @Component({
@@ -19,140 +21,90 @@ import { SessionDetailPage } from '../session-detail/session-detail';
   templateUrl: 'garden.html'
 })
 export class GardenPage {
-  // the list is a child of the garden page
-  // @ViewChild('gardenList') gets a reference to the list
-  // with the variable #gardenList, `read: List` tells it to return
-  // the List and not a reference to the element
-  @ViewChild('gardenList', { read: List }) gardenList: List;
+    actionSheet: ActionSheet;
+    gardens: any[] = [];
 
-  dayIndex = 0;
-  queryText = '';
-  segment = 'all';
-  excludeTracks: any = [];
-  shownSessions: any = [];
-  groups: any = [];
-  confDate: string;
+    constructor(
+        public actionSheetCtrl: ActionSheetController,
+        public navCtrl: NavController,
+        public confData: ConferenceData,
+        public config: Config,
+        public inAppBrowser: InAppBrowser
+    ) { }
 
-  constructor(
-    public alertCtrl: AlertController,
-    public app: App,
-    public loadingCtrl: LoadingController,
-    public modalCtrl: ModalController,
-    public navCtrl: NavController,
-    public toastCtrl: ToastController,
-    public confData: ConferenceData,
-    public user: UserData,
-  ) {}
-
-  ionViewDidLoad() {
-    this.app.setTitle('Garden');
-    this.updateGarden();
-  }
-
-  updateGarden() {
-    // Close any open sliding items when the garden updates
-    this.gardenList && this.gardenList.closeSlidingItems();
-
-    this.confData.getTimeline(this.dayIndex, this.queryText, this.excludeTracks, this.segment).subscribe((data: any) => {
-      this.shownSessions = data.shownSessions;
-      this.groups = data.groups;
-    });
-  }
-
-
-  goToSessionDetail(sessionData: any) {
-    // go to the session detail page
-    // and pass in the session data
-    this.navCtrl.push(SessionDetailPage, {
-      name: sessionData.name,
-      session: sessionData
-    });
-  }
-
-  addFavorite(slidingItem: ItemSliding, sessionData: any) {
-
-    if (this.user.hasFavorite(sessionData.name)) {
-      // woops, they already favorited it! What shall we do!?
-      // prompt them to remove it
-      this.removeFavorite(slidingItem, sessionData, 'Favorite already added');
-    } else {
-      // remember this session as a user favorite
-      this.user.addFavorite(sessionData.name);
-
-      // create an alert instance
-      let alert = this.alertCtrl.create({
-        title: 'Favorite Added',
-        buttons: [{
-          text: 'OK',
-          handler: () => {
-            // close the sliding item
-            slidingItem.close();
-          }
-        }]
-      });
-      // now present the alert on top of all other content
-      alert.present();
+    ionViewDidLoad() {
+        this.confData.getGardens().subscribe((gardens: any[]) => {
+            this.gardens = gardens;
+        });
     }
 
-  }
-
-  removeFavorite(slidingItem: ItemSliding, sessionData: any, title: string) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      message: 'Would you like to remove this session from your favorites?',
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: () => {
-            // they clicked the cancel button, do not remove the session
-            // close the sliding item and hide the option buttons
-            slidingItem.close();
-          }
-        },
-        {
-          text: 'Remove',
-          handler: () => {
-            // they want to remove this session from their favorites
-            this.user.removeFavorite(sessionData.name);
-            this.updateGarden();
-
-            // close the sliding item and hide the option buttons
-            slidingItem.close();
-          }
-        }
-      ]
-    });
-    // now present the alert on top of all other content
-    alert.present();
-  }
-
-  openSocial(network: string, fab: FabContainer) {
-    let loading = this.loadingCtrl.create({
-      content: `Posting to ${network}`,
-      duration: (Math.random() * 1000) + 500
-    });
-    loading.onWillDismiss(() => {
-      fab.close();
-    });
-    loading.present();
-  }
-
-  doRefresh(refresher: Refresher) {
-    this.confData.getTimeline(this.dayIndex, this.queryText, this.excludeTracks, this.segment).subscribe((data: any) => {
-      this.shownSessions = data.shownSessions;
-      this.groups = data.groups;
-
-      // simulate a network request that would take longer
-      // than just pulling from out local json file
-      setTimeout(() => {
-        refresher.complete();
-
-        const toast = this.toastCtrl.create({
-          message: 'Sessions have been updated.',
-          duration: 3000
+    goToSessionDetail(session: any) {
+        this.navCtrl.push(SessionDetailPage, {
+            name: session.name,
+            session: session
         });
-        toast.present();
-      }, 1000);
-    });
-  }
+    }
+
+    goToGardenDetail(gardenName: any) {
+        this.navCtrl.push(GardenDetailPage, {
+            garden: gardenName,
+            name: gardenName.name
+        });
+    }
+
+    /*goToSpeakerTwitter(speaker: any) {
+        this.inAppBrowser.create(`https://twitter.com/${speaker.twitter}`, '_blank');
+    }
+
+    openSpeakerShare(speaker: any) {
+        let actionSheet = this.actionSheetCtrl.create({
+            title: 'Share ' + speaker.name,
+            buttons: [
+                {
+                    text: 'Copy Link',
+                    handler: () => {
+                        console.log('Copy link clicked on https://twitter.com/' + speaker.twitter);
+                        if ((window as any)['cordova'] && (window as any)['cordova'].plugins.clipboard) {
+                            (window as any)['cordova'].plugins.clipboard.copy('https://twitter.com/' + speaker.twitter);
+                        }
+                    }
+                },
+                {
+                    text: 'Share via ...'
+                },
+                {
+                    text: 'Cancel',
+                    role: 'cancel'
+                }
+            ]
+        });
+
+        actionSheet.present();
+    }
+
+    openContact(speaker: any) {
+        let mode = this.config.get('mode');
+
+        let actionSheet = this.actionSheetCtrl.create({
+            title: 'Contact ' + speaker.name,
+            buttons: [
+                {
+                    text: `Email ( ${speaker.email} )`,
+                    icon: mode !== 'ios' ? 'mail' : null,
+                    handler: () => {
+                        window.open('mailto:' + speaker.email);
+                    }
+                },
+                {
+                    text: `Call ( ${speaker.phone} )`,
+                    icon: mode !== 'ios' ? 'call' : null,
+                    handler: () => {
+                        window.open('tel:' + speaker.phone);
+                    }
+                }
+            ]
+        });
+
+        actionSheet.present();
+    }*/
 }

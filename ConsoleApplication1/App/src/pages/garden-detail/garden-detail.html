@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{garden.name}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="garden-detail">
+
+  <div text-center>
+    <img [src]="garden.profilePic" [alt]="garden.name"><br>
+
+    <button ion-button icon-only clear small color="twitter">
+      <ion-icon name="logo-twitter"></ion-icon>
+    </button>
+    <button ion-button icon-only clear small color="github">
+      <ion-icon name="logo-github"></ion-icon>
+    </button>
+    <button ion-button icon-only clear small color="instagram">
+      <ion-icon name="logo-instagram"></ion-icon>
+    </button>
+  </div>
+
+  <p>{{garden.description}}</p>
+
+</ion-content>

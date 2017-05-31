@@ -8165,6 +8165,7 @@
     <None Include="App\src\pages\schedule-filter\schedule-filter.scss" />
     <None Include="App\src\pages\schedule\schedule.scss" />
     <None Include="App\src\pages\signup\signup.scss" />
+    <None Include="App\src\pages\garden-detail\garden-detail.scss" />
     <None Include="App\src\pages\speaker-detail\speaker-detail.scss" />
     <None Include="App\src\pages\speaker-list\speaker-list.scss" />
     <None Include="App\src\pages\support\support.scss" />
@@ -17535,6 +17536,7 @@
     <Content Include="App\src\pages\schedule\schedule.html" />
     <Content Include="App\src\pages\session-detail\session-detail.html" />
     <Content Include="App\src\pages\signup\signup.html" />
+    <Content Include="App\src\pages\garden-detail\garden-detail.html" />
     <Content Include="App\src\pages\speaker-detail\speaker-detail.html" />
     <Content Include="App\src\pages\speaker-list\speaker-list.html" />
     <Content Include="App\src\pages\support\support.html" />
@@ -19974,6 +19976,7 @@
     <TypeScriptCompile Include="App\src\pages\schedule\schedule.ts" />
     <TypeScriptCompile Include="App\src\pages\session-detail\session-detail.ts" />
     <TypeScriptCompile Include="App\src\pages\signup\signup.ts" />
+    <TypeScriptCompile Include="App\src\pages\garden-detail\garden-detail.ts" />
     <TypeScriptCompile Include="App\src\pages\speaker-detail\speaker-detail.ts" />
     <TypeScriptCompile Include="App\src\pages\speaker-list\speaker-list.ts" />
     <TypeScriptCompile Include="App\src\pages\support\support.ts" />

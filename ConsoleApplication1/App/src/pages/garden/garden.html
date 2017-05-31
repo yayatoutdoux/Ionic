@@ -1,0 +1,53 @@
+<ion-header>
+    <!--<ion-navbar no-border-bottom>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
+            <ion-segment-button value="all">
+                All
+            </ion-segment-button>
+            <ion-segment-button value="favorites">
+                Favorites
+            </ion-segment-button>
+        </ion-segment>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="presentFilter()">
+                <ion-icon ios="ios-options-outline" md="md-options"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+    <ion-toolbar no-border-top>
+        <ion-searchbar color="primary"
+                       [(ngModel)]="queryText"
+                       (ionInput)="updateSchedule()"
+                       placeholder="Search">
+        </ion-searchbar>
+    </ion-toolbar>-->
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Gardens</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="outer-content garden-list">
+    <ion-list [virtualScroll]="gardens">
+        <ion-grid fixed>
+            <ion-row align-items-stretch>
+                <ion-col col-12 col-md-6 align-self-stretch align-self-center *virtualItem="let garden" approxItemHeight="457px">
+                    <ion-card class="garden-card">
+                        <ion-card-header>
+                            <button ion-item detail-none (click)="goToGardenDetail(garden)">
+                                <ion-avatar item-start>
+                                    <img [src]="garden.profilePic" alt="Garden profile pic">
+                                </ion-avatar>
+                                {{garden.name}}
+                            </button>
+                        </ion-card-header>
+                    </ion-card>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-list>
+</ion-content>
