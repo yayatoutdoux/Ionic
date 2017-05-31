@@ -142,8 +142,25 @@ export class ConferenceData {
 
   getGardens() {
       return this.load().map((data: any) => {
+          data.gardens.forEach((e:any) => {
+              e.plants = [];
+              e.plantIds.forEach((id: any) => {
+                  let plant = this.findById(data.plants, id);
+                  if (plant != null)
+                      e.plants.push(plant);
+              });
+          });
           return data.gardens;
       });
+  }
+
+  findById(array: any, id: any):any {
+      var elem = null;
+      array.forEach((e: any) => {
+          if (e.id == id)
+              elem = e;
+      });
+      return elem;
   }
 
   getTracks() {
