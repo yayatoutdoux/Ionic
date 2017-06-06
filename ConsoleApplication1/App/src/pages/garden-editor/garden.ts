@@ -11,6 +11,7 @@ import { ActionSheet, ActionSheetController, Config, AlertController, App, FabCo
 
 import { ConferenceData } from '../../providers/conference-data';
 import { UserData } from '../../providers/user-data';
+
 import { SessionDetailPage } from '../session-detail/session-detail';
 import { GardenDetailPage } from '../garden-detail/garden-detail';
 
@@ -28,8 +29,7 @@ export class GardenPage {
         public navCtrl: NavController,
         public confData: ConferenceData,
         public config: Config,
-        public inAppBrowser: InAppBrowser,
-        private alertCtrl: AlertController
+        public inAppBrowser: InAppBrowser
     ) { }
 
     ionViewDidLoad() {
@@ -50,16 +50,6 @@ export class GardenPage {
             garden: gardenName,
             name: gardenName.name
         });
-    }
-
-    openGardenAlert($event: any) {
-        let alert = this.alertCtrl.create({
-            title: 'Low battery',
-            subTitle: '10% of battery remaining',
-            buttons: ['Dismiss', 'Dismsiss', 'Disssmiss']
-        });
-        alert.present();
-        return false;
     }
 
     /*goToSpeakerTwitter(speaker: any) {

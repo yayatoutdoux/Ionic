@@ -47,12 +47,8 @@ page-garden {
     padding: 4px 16px;
   }
 
-  .garden-card {
-    cursor:pointer;
-  }
-
   .garden-card ion-card-content {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 0;
+    padding-right: 0;
   }
 }

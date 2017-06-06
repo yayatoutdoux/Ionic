@@ -11,23 +11,15 @@
         <ion-grid fixed>
             <ion-row align-items-stretch>
                 <ion-col col-12 col-md-6 align-self-stretch align-self-center *virtualItem="let garden" approxItemHeight="457px">
-                    <ion-card class="garden-card" (click)="goToGardenDetail(garden)" (contextmenu)="openGardenAlert($event)">
+                    <ion-card class="garden-card">
                         <ion-card-header>
-                            <div ion-item detail-none>
+                            <button ion-item detail-none (click)="goToGardenDetail(garden)">
                                 <ion-avatar item-start>
                                     <img [src]="garden.profilePic" alt="Garden profile pic">
                                 </ion-avatar>
                                 {{garden.name}}
-                            </div>
+                            </button>
                         </ion-card-header>
-                        <hr />
-                        <ion-card-content>
-                            <div>
-                                <p>
-                                    {{garden.description}}
-                                </p>
-                            </div>
-                        </ion-card-content>
                     </ion-card>
                 </ion-col>
             </ion-row>
