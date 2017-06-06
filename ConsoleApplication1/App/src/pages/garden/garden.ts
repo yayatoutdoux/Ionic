@@ -72,7 +72,7 @@ export class GardenPage {
         confirm.present();
     }
 
-    openGardenAlert($event: any, gardenName: any) {
+    openGardenAlert($event: any, gardenName: any, $index:any) {
         let actionSheet = this.actionSheetCtrl.create({
             title: gardenName.name,
             buttons: [
@@ -93,13 +93,6 @@ export class GardenPage {
                     handler: () => {
                         this.showConfirm(() => {
                                 this.confData.deleteGardenById(gardenName.id);
-
-                                for (var i = 0; i < this.gardens.length; i++) {
-                                    if (this.gardens[i].id == gardenName.id) {
-                                        this.gardens.splice(i, 1);
-                                        break;
-                                    }
-                                }
                             }, () => { },
                             "Delete '" + gardenName.name + "' ?",
                             "Are you sure you want to delete '" + gardenName.name + "' forever ?"

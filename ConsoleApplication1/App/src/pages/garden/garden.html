@@ -10,8 +10,8 @@
     <ion-list [virtualScroll]="gardens">
         <ion-grid fixed>
             <ion-row align-items-stretch>
-                <ion-col col-12 col-md-6 align-self-stretch align-self-center *virtualItem="let garden" approxItemHeight="457px">
-                    <ion-card class="garden-card" (click)="goToGardenDetail(garden)" (contextmenu)="openGardenAlert($event, garden)">
+                <ion-col col-12 col-md-6 align-self-stretch align-self-center *virtualItem="let garden;let idx = index" approxItemHeight="457px">
+                    <ion-card class="garden-card" (click)="goToGardenDetail(garden)" (contextmenu)="openGardenAlert($event, garden, idx)">
                         <ion-card-header>
                             <div ion-item detail-none>
                                 <ion-avatar item-start>
