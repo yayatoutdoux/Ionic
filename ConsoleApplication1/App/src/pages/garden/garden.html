@@ -11,7 +11,7 @@
         <ion-grid fixed>
             <ion-row align-items-stretch>
                 <ion-col col-12 col-md-6 align-self-stretch align-self-center *virtualItem="let garden" approxItemHeight="457px">
-                    <ion-card class="garden-card" (click)="goToGardenDetail(garden)" (contextmenu)="openGardenAlert($event)">
+                    <ion-card class="garden-card" (click)="goToGardenDetail(garden)" (contextmenu)="openGardenAlert($event, garden)">
                         <ion-card-header>
                             <div ion-item detail-none>
                                 <ion-avatar item-start>
@@ -20,7 +20,6 @@
                                 {{garden.name}}
                             </div>
                         </ion-card-header>
-                        <hr />
                         <ion-card-content>
                             <div>
                                 <p>

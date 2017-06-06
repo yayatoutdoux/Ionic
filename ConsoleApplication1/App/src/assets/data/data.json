@@ -408,6 +408,7 @@
   "gardens": [
     {
       "name": "First garden",
+      "id": 1,
       "description": "First garden",
       "profilePic": "assets/img/speakers/mouse.jpg",
       "lat": 43.071584,
@@ -416,6 +417,7 @@
     },
     {
       "name": "Second garden",
+      "id": 2,
       "description": "Second garden",
       "profilePic": "assets/img/speakers/mouse.jpg",
       "lat": 43.071584,
@@ -424,6 +426,7 @@
     },
     {
       "name": "Second garden",
+      "id": 3,
       "description": "Second garden",
       "profilePic": "assets/img/speakers/mouse.jpg",
       "lat": 43.071584,

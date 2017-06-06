@@ -175,4 +175,13 @@ export class ConferenceData {
     });
   }
 
+  deleteGardenById(id : any) {
+      for (var i = 0; i < this.data.gardens.length; i++) {
+          if (this.data.gardens[i].id == id) {
+              this.data.gardens.splice(i, 1);
+              return;
+          }
+      }
+  }
+
 }

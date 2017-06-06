@@ -29,7 +29,8 @@ export class GardenPage {
         public confData: ConferenceData,
         public config: Config,
         public inAppBrowser: InAppBrowser,
-        private alertCtrl: AlertController
+        public alertCtrl: AlertController
+
     ) { }
 
     ionViewDidLoad() {
@@ -52,69 +53,67 @@ export class GardenPage {
         });
     }
 
-    openGardenAlert($event: any) {
-        let alert = this.alertCtrl.create({
-            title: 'Low battery',
-            subTitle: '10% of battery remaining',
-            buttons: ['Dismiss', 'Dismsiss', 'Disssmiss']
-        });
-        alert.present();
-        return false;
-    }
-
-    /*goToSpeakerTwitter(speaker: any) {
-        this.inAppBrowser.create(`https://twitter.com/${speaker.twitter}`, '_blank');
-    }
-
-    openSpeakerShare(speaker: any) {
-        let actionSheet = this.actionSheetCtrl.create({
-            title: 'Share ' + speaker.name,
+    showConfirm(agreeCallback: any, disagreeCallback: any, title: any, message:any) {
+        let confirm = this.alertCtrl.create({
+            title: title,
+            message: message,
             buttons: [
                 {
-                    text: 'Copy Link',
+                    text: 'Disagree',
+                    handler: disagreeCallback
+                    
+                },
+                {
+                    text: 'Agree',
+                    handler: agreeCallback
+                }
+            ]
+        });
+        confirm.present();
+    }
+
+    openGardenAlert($event: any, gardenName: any) {
+        let actionSheet = this.actionSheetCtrl.create({
+            title: gardenName.name,
+            buttons: [
+                {
+                    text: 'Edit garden',
                     handler: () => {
-                        console.log('Copy link clicked on https://twitter.com/' + speaker.twitter);
-                        if ((window as any)['cordova'] && (window as any)['cordova'].plugins.clipboard) {
-                            (window as any)['cordova'].plugins.clipboard.copy('https://twitter.com/' + speaker.twitter);
-                        }
+                        
                     }
                 },
                 {
-                    text: 'Share via ...'
+                    text: 'General information'
                 },
                 {
-                    text: 'Cancel',
+                    text: 'Clone'
+                },
+                {
+                    text: 'Delete',
+                    handler: () => {
+                        this.showConfirm(() => {
+                                this.confData.deleteGardenById(gardenName.id);
+
+                                for (var i = 0; i < this.gardens.length; i++) {
+                                    if (this.gardens[i].id == gardenName.id) {
+                                        this.gardens.splice(i, 1);
+                                        break;
+                                    }
+                                }
+                            }, () => { },
+                            "Delete '" + gardenName.name + "' ?",
+                            "Are you sure you want to delete '" + gardenName.name + "' forever ?"
+                        );
+                    }
+                },
+                {
+                    text: 'Close',
                     role: 'cancel'
                 }
             ]
         });
 
         actionSheet.present();
+        return false;
     }
-
-    openContact(speaker: any) {
-        let mode = this.config.get('mode');
-
-        let actionSheet = this.actionSheetCtrl.create({
-            title: 'Contact ' + speaker.name,
-            buttons: [
-                {
-                    text: `Email ( ${speaker.email} )`,
-                    icon: mode !== 'ios' ? 'mail' : null,
-                    handler: () => {
-                        window.open('mailto:' + speaker.email);
-                    }
-                },
-                {
-                    text: `Call ( ${speaker.phone} )`,
-                    icon: mode !== 'ios' ? 'call' : null,
-                    handler: () => {
-                        window.open('tel:' + speaker.phone);
-                    }
-                }
-            ]
-        });
-
-        actionSheet.present();
-    }*/
 }
