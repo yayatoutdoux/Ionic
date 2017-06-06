@@ -79,14 +79,20 @@ export class GardenPage {
                 {
                     text: 'Edit garden',
                     handler: () => {
-                        
+                        this.goToGardenDetail(gardenName);
                     }
                 },
                 {
-                    text: 'General information'
+                    text: 'General information',
+                    handler: () => {
+                        alert("not implemented");
+                    }
                 },
                 {
-                    text: 'Clone'
+                    text: 'Clone',
+                    handler: () => {
+                        alert("not implemented");
+                    }
                 },
                 {
                     text: 'Delete',
