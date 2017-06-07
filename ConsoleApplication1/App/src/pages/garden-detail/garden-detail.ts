@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { SessionDetailPage } from '../session-detail/session-detail';
+import { GardenEditor } from '../../components/garden-editor/garden-editor';
 
 @Component({
     selector: 'page-garden-detail',

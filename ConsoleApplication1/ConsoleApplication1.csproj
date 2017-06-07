@@ -8160,7 +8160,7 @@
     <None Include="App\src\pages\about\about.scss" />
     <None Include="App\src\pages\account\account.scss" />
     <None Include="App\src\pages\new-garden\new-garden.scss" />
-    <None Include="App\src\pages\garden-editor\garden.scss" />
+    <None Include="App\src\components\garden-editor\garden-editor.scss" />
     <None Include="App\src\pages\login\login.scss" />
     <None Include="example\map\map.scss" />
     <None Include="App\src\pages\garden\garden.scss" />
@@ -17532,7 +17532,7 @@
     <Content Include="App\src\pages\about\about.html" />
     <Content Include="App\src\pages\account\account.html" />
     <Content Include="App\src\pages\new-garden\new-garden.html" />
-    <Content Include="App\src\pages\garden-editor\garden.html" />
+    <Content Include="App\src\components\garden-editor\garden-editor.html" />
     <Content Include="App\src\pages\login\login.html" />
     <Content Include="example\map\map.html" />
     <Content Include="App\src\pages\garden\garden.html" />
@@ -19974,7 +19974,7 @@
     <TypeScriptCompile Include="App\src\pages\about\about.ts" />
     <TypeScriptCompile Include="App\src\pages\account\account.ts" />
     <TypeScriptCompile Include="App\src\pages\new-garden\new-garden.ts" />
-    <TypeScriptCompile Include="App\src\pages\garden-editor\garden.ts" />
+    <TypeScriptCompile Include="App\src\components\garden-editor\garden-editor.ts" />
     <TypeScriptCompile Include="App\src\pages\login\login.ts" />
     <TypeScriptCompile Include="example\map\map.ts" />
     <TypeScriptCompile Include="App\src\pages\garden\garden.ts" />

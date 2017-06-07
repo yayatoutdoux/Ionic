@@ -1,9 +1,13 @@
-
-.garden-detail img {
-  max-width: 140px;
-  border-radius: 50%;
-}
-
-.garden-detail p {
-  color: #60646B;
+page-garden-detail {
+  img {
+      max-width: 140px;
+      border-radius: 50%;
+   }
+  p {
+      color: #60646B;
+  }
+  .p-lr-0 {
+      padding-left:0;
+      padding-right:0;
+  }
 }

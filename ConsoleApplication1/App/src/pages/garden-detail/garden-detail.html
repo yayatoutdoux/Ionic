@@ -30,6 +30,14 @@
                     <ion-card-content>
                         <div text-left>
                             <p>{{garden.description}}</p>
+                            <p>{{garden.description}}</p>
+                            <p>{{garden.description}}</p>
+                            <p>{{garden.description}}</p>
+                            <p>{{garden.description}}</p>
+                            <p>{{garden.description}}</p>
+                            <p>{{garden.description}}</p>
+                            <p>{{garden.description}}</p>
+                            <p>{{garden.description}}</p>
                             <p>{{garden.plants.length}}</p>
                         </div>
                     </ion-card-content>
@@ -37,14 +45,16 @@
             </ion-col>
         </ion-row>
         <ion-row align-items-stretch>
-            <ion-col col-12 col-md-12 align-self-stretch align-self-center approxItemHeight="457px">
+            <ion-col col-12 col-md-12 align-self-stretch align-self-center>
                 <ion-card class="garden-card">
                     <ion-card-header>
                         Editor
                     </ion-card-header>
                     <ion-card-content>
 
-                            {{garden.name}}
+                            <garden-editor>
+
+                            </garden-editor>
                     </ion-card-content>
                 </ion-card>
             </ion-col>
