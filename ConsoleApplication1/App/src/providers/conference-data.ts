@@ -184,4 +184,11 @@ export class ConferenceData {
       }
   }
 
+  createGarden(garden: any) {
+      garden.plantIds = [];
+      garden.profilePic = "assets/img/speakers/mouse.jpg";
+      garden.id = this.data.gardens[this.data.gardens.length - 1].id + 1;
+      this.data.gardens.push(garden);
+  }
+
 }
