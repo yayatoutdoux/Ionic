@@ -13,6 +13,7 @@ import { ConferenceData } from '../../providers/conference-data';
 import { UserData } from '../../providers/user-data';
 import { SessionDetailPage } from '../session-detail/session-detail';
 import { GardenDetailPage } from '../garden-detail/garden-detail';
+import { NewGardenPage } from '../new-garden/new-garden';
 
 
 @Component({
@@ -50,6 +51,11 @@ export class GardenPage {
         this.navCtrl.push(GardenDetailPage, {
             garden: gardenName,
             name: gardenName.name
+        });
+    }
+
+    goToNewGarden() {
+        this.navCtrl.push(NewGardenPage, {
         });
     }
 

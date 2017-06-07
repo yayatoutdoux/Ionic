@@ -15,17 +15,12 @@ import { AboutPage } from '../pages/about/about';
 import { PopoverPage } from '../pages/about-popover/about-popover';
 import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
-import { MapPage } from '../pages/map/map';
-import { SchedulePage } from '../pages/schedule/schedule';
 import { GardenPage } from '../pages/garden/garden';
-import { ScheduleFilterPage } from '../pages/schedule-filter/schedule-filter';
+import { NewGardenPage } from '../pages/new-garden/new-garden';
 import { SessionDetailPage } from '../pages/session-detail/session-detail';
 import { SignupPage } from '../pages/signup/signup';
-import { SpeakerDetailPage } from '../pages/speaker-detail/speaker-detail';
 import { GardenDetailPage } from '../pages/garden-detail/garden-detail';
-import { SpeakerListPage } from '../pages/speaker-list/speaker-list';
 import { TabsPage } from '../pages/tabs/tabs';
-import { TutorialPage } from '../pages/tutorial/tutorial';
 import { SupportPage } from '../pages/support/support';
 
 import { ConferenceData } from '../providers/conference-data';
@@ -38,19 +33,14 @@ import { UserData } from '../providers/user-data';
     AboutPage,
     AccountPage,
     LoginPage,
-    MapPage,
     PopoverPage,
-    SchedulePage,
     GardenPage,
-    ScheduleFilterPage,
-    SessionDetailPage,
     SignupPage,
-    SpeakerDetailPage,
     GardenDetailPage,
-    SpeakerListPage,
     TabsPage,
-    TutorialPage,
-    SupportPage
+    SupportPage,
+    NewGardenPage,
+    SessionDetailPage
   ],
   imports: [
     BrowserModule,
@@ -58,16 +48,11 @@ import { UserData } from '../providers/user-data';
     IonicModule.forRoot(ConferenceApp, {}, {
       links: [
         { component: TabsPage, name: 'TabsPage', segment: 'tabs' },
-        { component: SchedulePage, name: 'Schedule', segment: 'schedule' },
         { component: GardenPage, name: 'Garden', segment: 'garden' },
         { component: SessionDetailPage, name: 'SessionDetail', segment: 'sessionDetail/:name' },
-        { component: ScheduleFilterPage, name: 'ScheduleFilter', segment: 'scheduleFilter' },
-        { component: SpeakerListPage, name: 'SpeakerList', segment: 'speakerList' },
-        { component: SpeakerDetailPage, name: 'SpeakerDetail', segment: 'speakerDetail/:name' },
-        { component: GardenDetailPage, name: 'GardenDetail', segment: 'gardenDetail/:name' },
-        { component: MapPage, name: 'Map', segment: 'map' },
+        { component: GardenDetailPage, name: 'GardenDetail', segment: 'gardenDetail/:id' },
+        { component: NewGardenPage, name: 'NewGarden', segment: 'new-garden' },
         { component: AboutPage, name: 'About', segment: 'about' },
-        { component: TutorialPage, name: 'Tutorial', segment: 'tutorial' },
         { component: SupportPage, name: 'SupportPage', segment: 'support' },
         { component: LoginPage, name: 'LoginPage', segment: 'login' },
         { component: AccountPage, name: 'AccountPage', segment: 'account' },
@@ -82,19 +67,14 @@ import { UserData } from '../providers/user-data';
     AboutPage,
     AccountPage,
     LoginPage,
-    MapPage,
     PopoverPage,
-    SchedulePage,
     GardenPage,
-    ScheduleFilterPage,
     SessionDetailPage,
     SignupPage,
-    SpeakerDetailPage,
     GardenDetailPage,
-    SpeakerListPage,
     TabsPage,
-    TutorialPage,
-    SupportPage
+    SupportPage,
+    NewGardenPage
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },

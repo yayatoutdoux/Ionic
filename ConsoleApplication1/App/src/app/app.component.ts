@@ -8,13 +8,10 @@ import { Storage } from '@ionic/storage';
 import { AboutPage } from '../pages/about/about';
 import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
-import { MapPage } from '../pages/map/map';
 import { SignupPage } from '../pages/signup/signup';
 import { TabsPage } from '../pages/tabs/tabs';
-import { TutorialPage } from '../pages/tutorial/tutorial';
-import { SchedulePage } from '../pages/schedule/schedule';
 import { GardenPage } from '../pages/garden/garden';
-import { SpeakerListPage } from '../pages/speaker-list/speaker-list';
+import { NewGardenPage } from '../pages/new-garden/new-garden';
 import { SupportPage } from '../pages/support/support';
 
 import { ConferenceData } from '../providers/conference-data';
@@ -43,10 +40,7 @@ export class ConferenceApp {
   // the left menu only works after login
   // the login page disables the left menu
   appPages: PageInterface[] = [
-    { title: 'Garden', name: 'TabsPage', component: TabsPage, tabComponent: GardenPage, index: 0, icon: 'calendar' },
-    { title: 'Schedule', name: 'TabsPage', component: TabsPage, tabComponent: SchedulePage, index: 1, icon: 'calendar' },
-    { title: 'Speakers', name: 'TabsPage', component: TabsPage, tabComponent: SpeakerListPage, index: 2, icon: 'contacts' },
-    { title: 'Map', name: 'TabsPage', component: TabsPage, tabComponent: MapPage, index: 3, icon: 'map' },
+    { title: 'Garden', name: 'TabsPage', component: TabsPage, tabComponent: GardenPage, index: 0, icon: 'rose' },
     { title: 'About', name: 'TabsPage', component: TabsPage, tabComponent: AboutPage, index: 4, icon: 'information-circle' }
   ];
   loggedInPages: PageInterface[] = [
@@ -72,15 +66,16 @@ export class ConferenceApp {
   ) {
 
     // Check if the user has already seen the tutorial
-    this.storage.get('hasSeenTutorial')
+      this.rootPage = TabsPage;
+      this.platformReady();
+
+    /*this.storage.get('hasSeenTutorial')
       .then((hasSeenTutorial) => {
         if (hasSeenTutorial) {
-          this.rootPage = TabsPage;
         } else {
           this.rootPage = TutorialPage;
         }
-        this.platformReady()
-      });
+      });*/
 
     // load the conference data
     confData.load();
@@ -122,9 +117,6 @@ export class ConferenceApp {
     }
   }
 
-  openTutorial() {
-    this.nav.setRoot(TutorialPage);
-  }
 
   listenToLoginEvents() {
     this.events.subscribe('user:login', () => {

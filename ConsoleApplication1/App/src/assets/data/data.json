@@ -413,7 +413,9 @@
       "profilePic": "assets/img/speakers/mouse.jpg",
       "lat": 43.071584,
       "lng": -89.380120,
-      "plantIds": [ 1, 1 ]
+      "plantIds": [ 1, 1 ],
+      "height": 20,
+      "width": 20
     },
     {
       "name": "Second garden",
@@ -422,7 +424,9 @@
       "profilePic": "assets/img/speakers/mouse.jpg",
       "lat": 43.071584,
       "lng": -89.380120,
-      "plantIds": [ 1, 1 ]
+      "plantIds": [ 1, 1 ],
+      "height": 20,
+      "width": 20
     },
     {
       "name": "Second garden",
@@ -431,7 +435,9 @@
       "profilePic": "assets/img/speakers/mouse.jpg",
       "lat": 43.071584,
       "lng": -89.380120,
-      "plantIds": [ 1, 1 ]
+      "plantIds": [ 1, 1 ],
+      "height": 20,
+      "width": 20
     }
   ]
 }
