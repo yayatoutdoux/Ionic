@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, Input } from '@angular/core';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { ActionSheet, ActionSheetController, Config, AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, ToastController, LoadingController, Refresher } from 'ionic-angular';
@@ -21,9 +21,11 @@ import { GardenDetailPage } from '../garden-detail/garden-detail';
   templateUrl: 'garden-editor.html'
 })
 export class GardenEditor {
+    @Input() garden : any;
 
     constructor(
     ) {
+
     }
     
 }
