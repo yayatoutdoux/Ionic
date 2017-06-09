@@ -47,7 +47,8 @@ export class GardenEditor {
             gX: any = null,
             gY: any = null,
             currentTransform = null,
-            svg = d3.select("#chart-container").append('svg'),
+            svg = d3.select("#chart-container").append('svg')
+                .attr("height", 500),
             view = svg.append("g")
                 .attr("class", "view");
         if (currentTransform) view.attr('transform', currentTransform);
@@ -93,8 +94,8 @@ export class GardenEditor {
             slider.property("value", d3.event.scale);
         }
 
-        var previousDraggedPosition: any = null,
-            selected = null;
+        //var previousDraggedPosition: any = null,
+        //    selected = null;
         // snap to grid is simply rounding to the nearest resolution of the square
         function snapToGrid(p: any, r: any) {
             return Math.round(p / r) * r;
@@ -121,15 +122,15 @@ export class GardenEditor {
                 .on("end", dragended));*/
         // add the square to each group
         var item = itemContainer.append('rect').attr('class', 'table-graphic')
-            .attr('x', (d:any) => d.x)
-            .attr('y', (d:any) => d.y)
+            .attr('x', (d: any) => d.x)
+            .attr('y', (d: any) => d.y)
             .attr('data-rotation', 0)
             .attr('width', cubeResolution)
             .attr('height', cubeResolution)
-            .attr('fill', 'blue')
-            .on('click', function () {
+            .attr('fill', 'blue');
+            /*.on('click', function () {
                 selected = this.parentNode;
-            });
+            });*/
 
         
         // helper to convert strings to integers
