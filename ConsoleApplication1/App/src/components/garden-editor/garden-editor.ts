@@ -38,6 +38,9 @@ export class GardenEditor {
     initSvg() {
         // select chart div and get the width and height of it.
         var containerStyle = document.querySelector('#chart-container').getBoundingClientRect();
+        console.log(containerStyle.width);
+        console.log(containerStyle.height);
+
         var svg:any = null,
             width = containerStyle.width,
             height = containerStyle.height,
@@ -48,6 +51,7 @@ export class GardenEditor {
             view = svg.append("g")
                 .attr("class", "view");
         if (currentTransform) view.attr('transform', currentTransform);
+
         var xScale = d3Scale.scaleLinear()
             .domain([-width / 2, width / 2])
             .range([0, width]);
@@ -55,20 +59,24 @@ export class GardenEditor {
         var yScale = d3Scale.scaleLinear()
             .domain([-height / 2, height / 2])
             .range([height, 0]);
+
         var xAxis = d3Axis.axisBottom(xScale)
             .ticks((width + 2) / (height + 2) * 10)
             .tickSize(height)
-            .tickPadding(8 - height);
+            .tickPadding(8 - height)
+            ;
         var yAxis = d3Axis.axisRight(yScale)
             .ticks(10)
             .tickSize(width)
             .tickPadding(8 - width);
+
         gX = svg.append("g")
             .attr("class", "axis axis--x")
             .call(xAxis);
         gY = svg.append("g")
             .attr("class", "axis axis--y")
             .call(yAxis);
+
         var zoom = d3Zoom.zoom()
             .scaleExtent([0.5, 5])
             .translateExtent([
@@ -104,13 +112,13 @@ export class GardenEditor {
             // add group to view
             .data(points).enter().append('g')
             // and center the group in the middle
-            .attr("transform", () => 'translate(' + xScale(0) + ',' + yScale(0) + ')')
-            .append('g')
+            .attr("transform", () => 'translate(' + xScale(0) + ',' + yScale(0) + ')');
+            //.append('g')
             // make this entire group draggable - this is useful for adding text elements later
-            .call(d3Drag.drag()
+            /*.call(d3Drag.drag()
                 .on("start", dragstarted)
                 .on("drag", dragged)
-                .on("end", dragended));
+                .on("end", dragended));*/
         // add the square to each group
         var item = itemContainer.append('rect').attr('class', 'table-graphic')
             .attr('x', (d:any) => d.x)
@@ -123,36 +131,7 @@ export class GardenEditor {
                 selected = this.parentNode;
             });
 
-        function dragged(d: any) {
-            selected = this;
-            // update the position of the rect (square) and snap to grid
-            var el = d3.select(this).select('.table-graphic').attr("x", (d: any) => snapToGrid(d3.event.x, cubeResolution)).attr("y", () => snapToGrid(d3.event.y, cubeResolution))
-            // get center point and make sure rotation is correct on drag.
-            var center = getCenter(el.attr('x'), el.attr('y'), cubeResolution, cubeResolution);
-            el.attr('transform', () => {
-                return "rotate(" + el.attr('data-rotation') + "," + center.x + ',' + center.y + ")";
-            });
-        }
-        function dragended(d: any) {
-            d3.select(this).classed("dragging", false);
-            var newEl = d3.select(this).select('.table-graphic');
-            var newPt = {
-                x: newEl.attr('x'),
-                y: newEl.attr('y')
-            };
-            // save and update position for redraw
-            /*var pt = findAndUpdate(coorNum(previousDraggedPosition), coorNum(newPt));
-            if (pt) {
-                previousDraggedPosition = pt
-            };*/
-        }
-        function dragstarted(d: any) {
-            var el = d3.select(this);
-            // save previous drag point for collisions and redraws
-            savePreviousDragPoint(el);
-            // raise the z-index to the top and set class to dragging
-            el.raise().classed("dragging", true);
-        }
+        
         // helper to convert strings to integers
         function coorNum(pt: any) {
             return {
@@ -160,22 +139,7 @@ export class GardenEditor {
                 y: parseInt(pt.y, 10)
             };
         }
-        function savePreviousDragPoint(el: any) {
-            var elBox = el.nodes()[0].getBBox();
-            if (!el.nodes()[0].classList.contains('dragging')) {
-                previousDraggedPosition = {
-                    x: elBox.x,
-                    y: elBox.y
-                };
-            }
-        }
-        // helper for drag recentering
-        function getCenter(x: any, y: any, w: any, h: any) {
-            return {
-                x: parseInt(x, 10) + parseInt(w, 10) / 2,
-                y: parseInt(y, 10) + parseInt(h) / 2
-            }
-        };
+        
         // add slider instead of mousewheel zoom to improve user experience
         // have it start at min 50% and max out at 5x the amount.
         var slider = d3.select(".editor").append("input")
@@ -189,12 +153,68 @@ export class GardenEditor {
         function slided(d: any) {
             zoom.scaleTo(svg, d3.select(this).property("value"));
         }
+        
+        function zoo(d: any) {
+            if (slider.property("value") < 3) {
+                zoom.scaleTo(svg, 3);
+                slider.property("value", 3);
+            }
+            else {
+                zoom.scaleTo(svg, 1);
+                slider.property("value", 1);
+            }
+                
+        }
         // disable zoom on mousewheel and double click
         svg.call(zoom).on("wheel.zoom", null)
-            .on('dblclick.zoom', null);
+            .on('dblclick.zoom', zoo);
     }
-
-
+    /*function dragged(d: any) {
+        selected = this;
+        // update the position of the rect (square) and snap to grid
+        var el = d3.select(this).select('.table-graphic').attr("x", (d: any) => snapToGrid(d3.event.x, cubeResolution)).attr("y", () => snapToGrid(d3.event.y, cubeResolution))
+        // get center point and make sure rotation is correct on drag.
+        var center = getCenter(el.attr('x'), el.attr('y'), cubeResolution, cubeResolution);
+        el.attr('transform', () => {
+            return "rotate(" + el.attr('data-rotation') + "," + center.x + ',' + center.y + ")";
+        });
+    }
+    function dragended(d: any) {
+        d3.select(this).classed("dragging", false);
+        var newEl = d3.select(this).select('.table-graphic');
+        var newPt = {
+            x: newEl.attr('x'),
+            y: newEl.attr('y')
+        };
+        // save and update position for redraw
+        var pt = findAndUpdate(coorNum(previousDraggedPosition), coorNum(newPt));
+        if (pt) {
+            previousDraggedPosition = pt
+        };
+    }
+    function dragstarted(d: any) {
+        var el = d3.select(this);
+        // save previous drag point for collisions and redraws
+        savePreviousDragPoint(el);
+        // raise the z-index to the top and set class to dragging
+        el.raise().classed("dragging", true);
+    }*/
+    /*function savePreviousDragPoint(el: any) {
+        var elBox = el.nodes()[0].getBBox();
+        if (!el.nodes()[0].classList.contains('dragging')) {
+            previousDraggedPosition = {
+                x: elBox.x,
+                y: elBox.y
+            };
+        }
+    }*/
+    // helper for drag recentering
+    /*function getCenter(x: any, y: any, w: any, h: any) {
+        return {
+            x: parseInt(x, 10) + parseInt(w, 10) / 2,
+            y: parseInt(y, 10) + parseInt(h) / 2
+        }
+    };*/
     ngAfterContentInit()
     {
         this.initSvg();
