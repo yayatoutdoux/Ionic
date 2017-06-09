@@ -31,7 +31,6 @@ export class GardenPage {
         public config: Config,
         public inAppBrowser: InAppBrowser,
         public alertCtrl: AlertController
-
     ) { }
 
     ionViewDidLoad() {
