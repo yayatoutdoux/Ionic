@@ -36,214 +36,74 @@ export class GardenEditor {
         
     }
     initSvg() {
-        // select chart div and get the width and height of it.
-        var containerStyle = document.querySelector('#chart-container').getBoundingClientRect();
-        console.log(containerStyle.width);
-        console.log(containerStyle.height);
+        var svg = d3.select("svg");
+        var width = +svg.attr("width");
+        var height = +svg.attr("height");
+    
+        var zoom = d3Zoom.zoom()
+            .scaleExtent([1, 40])
+            .translateExtent([[0, 0], [width, height]])
+            .on("zoom", zoomed);
 
-        var svg:any = null,
-            width = containerStyle.width,
-            height = containerStyle.height,
-            gX: any = null,
-            gY: any = null,
-            currentTransform = null,
-            svg = d3.select("#chart-container").append('svg')
-                .attr("height", 500),
-            view = svg.append("g")
-                .attr("class", "view");
-        if (currentTransform) view.attr('transform', currentTransform);
-
-        var xScale = d3Scale.scaleLinear()
-            .domain([-width / 2, width / 2])
+        var x = d3Scale.scaleLinear()
+            .domain([0, (width) / (height) * this.garden.width])
             .range([0, width]);
 
-        var yScale = d3Scale.scaleLinear()
-            .domain([-height / 2, height / 2])
-            .range([height, 0]);
+        var y = d3Scale.scaleLinear()
+            .domain([0, this.garden.height])
+            .range([0, height]);
 
-        var xAxis = d3Axis.axisBottom(xScale)
-            .ticks((width + 2) / (height + 2) * 10)
+        var xAxis = d3Axis.axisBottom(x)
+            .ticks((width) / (height) * 10)
             .tickSize(height)
-            .tickPadding(8 - height)
-            ;
-        var yAxis = d3Axis.axisRight(yScale)
+            .tickPadding(8 - height);
+
+        var yAxis = d3Axis.axisRight(y)
             .ticks(10)
             .tickSize(width)
             .tickPadding(8 - width);
 
-        gX = svg.append("g")
+        var view = svg.append("rect")
+            .attr("class", "view")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", width)
+            .attr("height", height);
+
+        var gX = svg.append("g")
             .attr("class", "axis axis--x")
             .call(xAxis);
-        gY = svg.append("g")
+
+        var gY = svg.append("g")
             .attr("class", "axis axis--y")
             .call(yAxis);
 
-        var zoom = d3Zoom.zoom()
-            .scaleExtent([0.5, 5])
-            .translateExtent([
-                [-width * 2, -height * 2],
-                [width * 2, height * 2]
-            ])
-            .on("zoom", zoomed);
+
+
+
+
+
+        d3.select("button")
+            .on("click", resetted);
+        
+        svg.call(zoom);
 
         function zoomed() {
-            currentTransform = d3.event.transform;
-            view.attr("transform", currentTransform);
-            gX.call(xAxis.scale(d3.event.transform.rescaleX(xScale)));
-            gY.call(yAxis.scale(d3.event.transform.rescaleY(yScale)));
-            slider.property("value", d3.event.scale);
+            view.attr("transform", d3.event.transform);
+            gX.call(xAxis.scale(d3.event.transform.rescaleX(x)));
+            gY.call(yAxis.scale(d3.event.transform.rescaleY(y)));
         }
 
-        //var previousDraggedPosition: any = null,
-        //    selected = null;
-        // snap to grid is simply rounding to the nearest resolution of the square
-        function snapToGrid(p: any, r: any) {
-            return Math.round(p / r) * r;
+        function resetted() {
+            svg.transition()
+                .duration(750)
+                .call(zoom.transform, d3.zoomIdentity);
         }
-        // we'll use a resolution of 50 here
-        var cubeResolution = 50;
-        // randomly generate points, but make sure they snap to grid
-        var points = d3Array.range(10).map(() => {
-            return {
-                x: snapToGrid(Math.random() * 500, cubeResolution),
-                y: snapToGrid(Math.random() * 500, cubeResolution)
-            };
-        });
-        var itemContainer = view.selectAll("g").attr("class", "itemContainer")
-            // add group to view
-            .data(points).enter().append('g')
-            // and center the group in the middle
-            .attr("transform", () => 'translate(' + xScale(0) + ',' + yScale(0) + ')');
-            //.append('g')
-            // make this entire group draggable - this is useful for adding text elements later
-            /*.call(d3Drag.drag()
-                .on("start", dragstarted)
-                .on("drag", dragged)
-                .on("end", dragended));*/
-        // add the square to each group
-        var item = itemContainer.append('rect').attr('class', 'table-graphic')
-            .attr('x', (d: any) => d.x)
-            .attr('y', (d: any) => d.y)
-            .attr('data-rotation', 0)
-            .attr('width', cubeResolution)
-            .attr('height', cubeResolution)
-            .attr('fill', 'blue');
-            /*.on('click', function () {
-                selected = this.parentNode;
-            });*/
-
-        
-        // helper to convert strings to integers
-        function coorNum(pt: any) {
-            return {
-                x: parseInt(pt.x, 10),
-                y: parseInt(pt.y, 10)
-            };
-        }
-        
-        // add slider instead of mousewheel zoom to improve user experience
-        // have it start at min 50% and max out at 5x the amount.
-        var slider = d3.select(".editor").append("input")
-            .datum({})
-            .attr("type", "range")
-            .attr("value", 1)
-            .attr("min", zoom.scaleExtent()[0])
-            .attr("max", zoom.scaleExtent()[1])
-            .attr("step", (zoom.scaleExtent()[1] - zoom.scaleExtent()[0]) / 100)
-            .on("input", slided);
-        function slided(d: any) {
-            zoom.scaleTo(svg, d3.select(this).property("value"));
-        }
-        
-        function zoo(d: any) {
-            if (slider.property("value") < 3) {
-                zoom.scaleTo(svg, 3);
-                slider.property("value", 3);
-            }
-            else {
-                zoom.scaleTo(svg, 1);
-                slider.property("value", 1);
-            }
-                
-        }
-        // disable zoom on mousewheel and double click
-        svg.call(zoom).on("wheel.zoom", null)
-            .on('dblclick.zoom', zoo);
     }
-    /*function dragged(d: any) {
-        selected = this;
-        // update the position of the rect (square) and snap to grid
-        var el = d3.select(this).select('.table-graphic').attr("x", (d: any) => snapToGrid(d3.event.x, cubeResolution)).attr("y", () => snapToGrid(d3.event.y, cubeResolution))
-        // get center point and make sure rotation is correct on drag.
-        var center = getCenter(el.attr('x'), el.attr('y'), cubeResolution, cubeResolution);
-        el.attr('transform', () => {
-            return "rotate(" + el.attr('data-rotation') + "," + center.x + ',' + center.y + ")";
-        });
-    }
-    function dragended(d: any) {
-        d3.select(this).classed("dragging", false);
-        var newEl = d3.select(this).select('.table-graphic');
-        var newPt = {
-            x: newEl.attr('x'),
-            y: newEl.attr('y')
-        };
-        // save and update position for redraw
-        var pt = findAndUpdate(coorNum(previousDraggedPosition), coorNum(newPt));
-        if (pt) {
-            previousDraggedPosition = pt
-        };
-    }
-    function dragstarted(d: any) {
-        var el = d3.select(this);
-        // save previous drag point for collisions and redraws
-        savePreviousDragPoint(el);
-        // raise the z-index to the top and set class to dragging
-        el.raise().classed("dragging", true);
-    }*/
-    /*function savePreviousDragPoint(el: any) {
-        var elBox = el.nodes()[0].getBBox();
-        if (!el.nodes()[0].classList.contains('dragging')) {
-            previousDraggedPosition = {
-                x: elBox.x,
-                y: elBox.y
-            };
-        }
-    }*/
-    // helper for drag recentering
-    /*function getCenter(x: any, y: any, w: any, h: any) {
-        return {
-            x: parseInt(x, 10) + parseInt(w, 10) / 2,
-            y: parseInt(y, 10) + parseInt(h) / 2
-        }
-    };*/
+   
     ngAfterContentInit()
     {
         this.initSvg();
-        /*var svgContainer = d3.select(".editor").append("svg")
-            .attr("width", 2000)
-            .attr("height", 1000);
-
-        var zoomed = function () {
-            svgContainer.attr("transform", d3.event.transform);
-            //svgContainer.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-        };
-
-        var zoom = d3.zoom()
-            .scaleExtent([1, 40])
-            .on("zoom", zoomed);
-
-        svgContainer
-        .append("g")
-            .call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", function () { }))
-        .append("g");
         
-        //Draw the Rectangle
-        var rectangle = svgContainer.append("rect")
-        .attr("x", 10)
-        .attr("y", 10)
-        .attr("width", 50)
-            .attr("height", 100);
-
-        svgContainer.call(zoom);*/
     }
 }
