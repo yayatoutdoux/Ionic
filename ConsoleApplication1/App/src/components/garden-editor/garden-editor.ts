@@ -39,19 +39,32 @@ export class GardenEditor {
         var svg = d3.select("svg");
         var width = +svg.attr("width");
         var height = +svg.attr("height");
-        //this.garden.width = 100;
+        this.garden.width = 60;
         var zoom = d3Zoom.zoom()
             .scaleExtent([1, 40])
             .translateExtent([[0, 0], [width, height]])
             .on("zoom", zoomed);
 
-        var x = d3Scale.scaleLinear()
-            .domain([0, (width) / (height) * this.garden.width])
-            .range([0, width]);
 
         var y = d3Scale.scaleLinear()
             .domain([0, this.garden.height])
             .range([0, height]);
+
+
+        var x = d3Scale.scaleLinear()
+            .domain([0, (width) / (height) * this.garden.height])
+            .range([0, width]);
+
+        
+
+
+
+
+
+
+
+
+
 
         var xAxis = d3Axis.axisBottom(x)
             .ticks((width) / (height) * 10)
