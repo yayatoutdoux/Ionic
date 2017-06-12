@@ -42,27 +42,14 @@ export class GardenEditor {
         this.garden.height = 60;
         this.garden.width = 60;
 
-
-
-        var y = d3Scale.scaleLinear()
-            .domain([0, this.garden.height])
-            .range([0, height]);
-
-
+        //w > h !!!!!!!!
         var x = d3Scale.scaleLinear()
             .domain([0, (width) / (height) * this.garden.height])
             .range([0, width]);
 
-        
-
-
-
-
-
-
-
-
-
+        var y = d3Scale.scaleLinear()
+            .domain([0, this.garden.height])
+            .range([0, height]);
 
         var xAxis = d3Axis.axisBottom(x)
             .ticks((width) / (height) * 10)
@@ -89,14 +76,12 @@ export class GardenEditor {
             .attr("class", "axis axis--y")
             .call(yAxis);
 
-        
+        alert(x(this.garden.width));
         var zoom = d3Zoom.zoom()
             .scaleExtent([1, 40])
             .translateExtent([[0, 0], [x(this.garden.width), y(this.garden.height)]])
-            .extent([[0, 0], [x(this.garden.width), y(this.garden.height)]])
+            .extent([[0, 0], [this.garden.width, this.garden.height]])
             .on("zoom", zoomed);
-
-
 
         d3.select(".bt")
             .on("click", resetted);
