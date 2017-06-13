@@ -1,14 +1,7 @@
 import { Component, ViewChild, Input } from '@angular/core';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
-import * as d3 from 'd3-selection';
-import * as d3Scale from "d3-scale";
-import * as d3Shape from "d3-shape";
-import * as d3Array from "d3-array";
-import * as d3Axis from "d3-axis";
-import * as d3Zoom from "d3-zoom";
-import * as d3Random from "d3-random";
-import * as d3Drag from "d3-drag";
+import * as d3 from 'd3';
 import { ActionSheet, ActionSheetController, Config, AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, ToastController, LoadingController, Refresher } from 'ionic-angular';
 
 /*
@@ -48,20 +41,20 @@ export class GardenEditor {
         this.garden.width = 60;
 
         //w > h !!!!!!!!
-        var x = d3Scale.scaleLinear()
+        var x = d3.scaleLinear()
             .domain([0, (width) / (height) * this.garden.height])
             .range([0, width]);
 
-        var y = d3Scale.scaleLinear()
+        var y = d3.scaleLinear()
             .domain([0, this.garden.height])
             .range([0, height]);
 
-        var xAxis = d3Axis.axisBottom(x)
+        var xAxis = d3.axisBottom(x)
             .ticks((width) / (height) * 10)
             .tickSize(height)
             .tickPadding(8 - height);
 
-        var yAxis = d3Axis.axisRight(y)
+        var yAxis = d3.axisRight(y)
             .ticks(10)
             .tickSize(width)
             .tickPadding(8 - width);
@@ -81,7 +74,7 @@ export class GardenEditor {
             .attr("class", "axis axis--y")
             .call(yAxis);
 
-        var zoom = d3Zoom.zoom()
+        var zoom = d3.zoom()
             .scaleExtent([1, 40])
             .translateExtent([[0, 0], [x(this.garden.width), y(this.garden.height)]])
             .extent([[0, 0], [this.garden.width, this.garden.height]])
@@ -93,15 +86,15 @@ export class GardenEditor {
         svg.call(zoom);
 
         function zoomed() {
+            //currentTransform = d3.event.transform;
             view.attr("transform", d3.event.transform);
             gX.call(xAxis.scale(d3.event.transform.rescaleX(x)));
             gY.call(yAxis.scale(d3.event.transform.rescaleY(y)));
+            //slider.property("value", d3.event.scale);
         }
 
         function resetted() {
-            /*svg.transition()
-                .duration(750)
-                .call(zoom.transform, d3Zoom.zoomIdentity);*/
+            svg.call(zoom.transform, d3.zoomIdentity);
         }
     }
    

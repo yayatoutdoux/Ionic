@@ -114,6 +114,7 @@
   <ItemGroup>
     <Content Include="App\.gitignore" />
     <Content Include="App\config.xml" />
+    <Content Include="App\JavaScript1.js" />
     <Content Include="App\resources\android\icon\drawable-hdpi-icon.png" />
     <Content Include="App\resources\android\icon\drawable-ldpi-icon.png" />
     <Content Include="App\resources\android\icon\drawable-mdpi-icon.png" />
