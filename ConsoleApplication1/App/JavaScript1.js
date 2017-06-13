@@ -44,13 +44,6 @@ var yAxis = d3.axisRight(yScale)
     .tickPadding(8 - width);
 
 
-
-var points = d3.range(10).map(() => {
-    return {
-        x: snapToGrid(Math.random() * 500, cubeResolution),
-        y: snapToGrid(Math.random() * 500, cubeResolution)
-    };
-});
 var slider = d3.select("body").append("p").append("input")
     .datum({})
     .attr("type", "range")
@@ -271,9 +264,7 @@ function slided(d) {
     zoom.scaleTo(svg, d3.select(this).property("value"));
 }
 
-function snapToGrid(p, r) {
-    return Math.round(p / r) * r;
-}
+
 
 
 /*function resetted() {

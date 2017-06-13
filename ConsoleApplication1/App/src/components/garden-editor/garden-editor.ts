@@ -40,9 +40,14 @@ export class GardenEditor {
         var currentTransform: any = null;
         var backdropContainer: any = null;
         var backdrop: any = null;
+        var draggedSvg: any = null;
+        var item: any = null;
+        var selected: any = null;
+        var cubeResolution = 50;
         
         var width = containerStyle.width;
         var height = containerStyle.height;
+        var points: any = [];
         this.garden.height = 60;
         this.garden.width = 60;
 
@@ -94,11 +99,11 @@ export class GardenEditor {
                 .attr("height", this.garden.height * yScale(1));
 
 
-            /*itemContainer = view.selectAll("g").attr("class", "itemContainer")
+            itemContainer = view.selectAll("g").attr("class", "itemContainer")
                 .data(points).enter().append('g')
                 .attr("transform", () => 'translate(' + xScale(0) + ',' + yScale(0) + ')')
-                .append('g')
-                .call(d3.drag()
+                .append('g');
+                /*.call(d3.drag()
                     .on("start", dragstarted)
                     .on("drag", dragged)
                     .on("end", dragended));*/
@@ -119,25 +124,23 @@ export class GardenEditor {
                 .attr('opacity', '0');
 
             backdrop.on('mousedown', function () {
-                alert();
                 var mouse = d3.mouse(this);
-                /*if (draggedSvg && svg) {
+                if (draggedSvg && svg) {
                     newItem(snapToGrid(mouse[0] - cubeResolution - 10, cubeResolution), snapToGrid(mouse[1] - cubeResolution - 10, cubeResolution));
-                }*/
+                }
             }).on('mousemove', function () {
-                alert();
-                /*var mouse = d3.mouse(this);
+                var mouse = d3.mouse(this);
                 if (draggedSvg) {
                     var x = mouse[0] - cubeResolution - 10;
                     var y = mouse[1] - cubeResolution - 10;
                     draggedSvg.attr('x', x);
                     draggedSvg.attr('y', y);
-                }*/
+                }
             });
-            /*
+            
             item = itemContainer.append('rect').attr('class', 'table-graphic')
-                .attr('x', d => d.x)
-                .attr('y', d => d.y)
+                .attr('x', (d:any) => d.x)
+                .attr('y', (d: any) => d.y)
                 .attr('data-rotation', 0)
                 .attr('width', cubeResolution)
                 .attr('height', cubeResolution)
@@ -147,7 +150,7 @@ export class GardenEditor {
                     selected = this.parentNode;
                 })
 
-            svg.call(zoom)
+            /*svg.call(zoom)
                 .on("wheel.zoom", null)
                 .on('dblclick.zoom', null);*/
             gX = svg.append("g")
@@ -166,6 +169,12 @@ export class GardenEditor {
         d3.select(".bt")
             .on("click", resetted);
         
+        function addRect() {
+            draggedSvg = backdropContainer.append('rect').attr('width', cubeResolution).attr('height', cubeResolution);
+        }
+
+        d3.select(".bt2")
+            .on("click", addRect);
 
         function zoomed() {
             //currentTransform = d3.event.transform;
@@ -179,8 +188,34 @@ export class GardenEditor {
             svg.call(zoom.transform, d3.zoomIdentity);
         }
 
+
+        function newItem(x:any, y:any) {
+            points.push({
+                x: x,
+                y: y
+            });
+            clearDrawing();
+            draw();
+        }
+
+        function clearDrawing() {
+            if (draggedSvg) draggedSvg.remove();
+            draggedSvg = null;
+            //newElementData = null;
+            if (svg) {
+                svg.on('mousedown', null);
+                view.exit().remove();
+                svg.remove();
+                svg = null;
+            }
+        }
+
         function stopped() {
             if (d3.event.defaultPrevented) d3.event.stopPropagation();
+        }
+
+        function snapToGrid(p:any, r:any) {
+            return Math.round(p / r) * r;
         }
     }
    
