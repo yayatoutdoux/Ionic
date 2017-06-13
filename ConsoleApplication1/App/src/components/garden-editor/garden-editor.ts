@@ -95,9 +95,9 @@ export class GardenEditor {
         }
 
         function resetted() {
-            svg.transition()
+            /*svg.transition()
                 .duration(750)
-                .call(zoom.transform, d3Zoom.zoomIdentity);
+                .call(zoom.transform, d3Zoom.zoomIdentity);*/
         }
     }
    
