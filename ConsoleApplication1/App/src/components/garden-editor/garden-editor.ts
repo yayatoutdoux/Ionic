@@ -72,24 +72,20 @@ export class GardenEditor {
 
         var zoom = d3.zoom()
             .scaleExtent([1, 40])
-            .translateExtent([[0, 0], [xScale(this.garden.width), yScale(this.garden.height)]])
+            .translateExtent([[0, 0], [this.garden.width, this.garden.height]])
             .extent([[0, 0], [this.garden.width, this.garden.height]])
             .on("zoom", zoomed);
-        var aaa = () => {
-            alert(1);
-        }
 
         var draw = () => {
             svg = d3.select("#chart-container").append('svg');
             svg.attr("width", width);
             svg.attr("height", height);
 
-            
             view = svg.append("g")
                 .attr("class", "view");
 
-            if (currentTransform) view.attr('transform', currentTransform);
-
+            if (currentTransform)
+                view.attr('transform', currentTransform);
 
             itemContainer = view.append("rect")
                 .attr("class", "view")
@@ -97,7 +93,6 @@ export class GardenEditor {
                 .attr("y", 0)
                 .attr("width", this.garden.width * xScale(1))
                 .attr("height", this.garden.height * yScale(1));
-
 
             itemContainer = view.selectAll("g").attr("class", "itemContainer")
                 .data(points).enter().append('g')
@@ -115,11 +110,11 @@ export class GardenEditor {
             backdrop = backdropContainer
                 .lower()
                 .append('rect')
-                .attr('x', -width * 2)
-                .attr('y', -height * 2)
+                .attr('x', 0)
+                .attr('y', 0)
                 .attr('class', 'table-backdrop')
-                .attr('height', height * 3)
-                .attr('width', width * 3)
+                .attr('height', this.garden.height * yScale(1))
+                .attr('width', this.garden.width * xScale(1))
                 .attr('fill', "black")
                 .attr('opacity', '0');
 
@@ -177,10 +172,11 @@ export class GardenEditor {
             .on("click", addRect);
 
         function zoomed() {
-            //currentTransform = d3.event.transform;
+            currentTransform = d3.event.transform;
             view.attr("transform", d3.event.transform);
             gX.call(xAxis.scale(d3.event.transform.rescaleX(xScale)));
             gY.call(yAxis.scale(d3.event.transform.rescaleY(yScale)));
+            //cubeResolution = 50/xScale(1);
             //slider.property("value", d3.event.scale);
         }
 
