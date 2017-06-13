@@ -61,7 +61,6 @@ var slider = d3.select("body").append("p").append("input")
     .on("input", slided);
 
 function draw() {
-
     svg = d3.select("#chart-container").append('svg');
     view = svg.append("g")
         .attr("class", "view")
@@ -142,27 +141,6 @@ d3.select("button")
     .on("click", resetted);
 
 
-function newItem(x, y, width, height) {
-    points.push({
-        x: x,
-        y: y
-    });
-    clearDrawing();
-
-    draw();
-}
-
-function clearDrawing() {
-    if (draggedSvg) draggedSvg.remove();
-    draggedSvg = null;
-    newElementData = null;
-    if (svg) {
-        svg.on('mousedown', null);
-        view.exit().remove();
-        svg.remove();
-        svg = null;
-    }
-}
 
 function dragstarted(d) {
     var el = d3.select(this);
@@ -297,16 +275,9 @@ function snapToGrid(p, r) {
     return Math.round(p / r) * r;
 }
 
-function zoomed() {
-    currentTransform = d3.event.transform;
-    view.attr("transform", currentTransform);
-    gX.call(xAxis.scale(d3.event.transform.rescaleX(xScale)));
-    gY.call(yAxis.scale(d3.event.transform.rescaleY(yScale)));
-    slider.property("value", d3.event.scale);
-}
 
-function resetted() {
+/*function resetted() {
     svg.transition()
         .duration(750)
         .call(zoom.transform, d3.zoomIdentity);
-}
+}*/
