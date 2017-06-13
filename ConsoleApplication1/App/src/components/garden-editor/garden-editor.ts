@@ -36,9 +36,14 @@ export class GardenEditor {
         
     }
     initSvg() {
+
+        var containerStyle = document.querySelector('#chart-container').getBoundingClientRect();
+
         var svg = d3.select("svg");
-        var width = +svg.attr("width");
-        var height = +svg.attr("height");
+        var width = containerStyle.width;
+        svg.attr("width", width);
+        var height = containerStyle.height;
+        svg.attr("height", height);
         this.garden.height = 60;
         this.garden.width = 60;
 
@@ -76,7 +81,6 @@ export class GardenEditor {
             .attr("class", "axis axis--y")
             .call(yAxis);
 
-        alert(x(this.garden.width));
         var zoom = d3Zoom.zoom()
             .scaleExtent([1, 40])
             .translateExtent([[0, 0], [x(this.garden.width), y(this.garden.height)]])
