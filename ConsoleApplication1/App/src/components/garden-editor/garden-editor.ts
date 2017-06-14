@@ -75,6 +75,24 @@ export class GardenEditor {
             .translateExtent([[0, 0], [width, height]])
             .on("zoom", zoomed);
 
+        var putDragged = function() {
+            var mouse = d3.mouse(this);
+            if (draggedSvg && svg) {
+                newItem(snapToGrid(mouse[0] - cubeResolution - 10, cubeResolution), snapToGrid(mouse[1] - cubeResolution - 10, cubeResolution));
+            }
+        };
+
+        var moveDragged = function () {
+            var mouse = d3.mouse(this);
+            if (draggedSvg) {
+                var x = mouse[0] - cubeResolution - 10;
+                var y = mouse[1] - cubeResolution - 10;
+                draggedSvg.attr('x', x);
+                draggedSvg.attr('y', y);
+            }
+        };
+
+
         var draw = () => {
             svg = d3.select("#chart-container").append('svg');
             svg.attr("width", width);
@@ -96,11 +114,12 @@ export class GardenEditor {
             itemContainer = view.selectAll("g").attr("class", "itemContainer")
                 .data(points).enter().append('g')
                 .attr("transform", () => 'translate(' + xScale(0) + ',' + yScale(0) + ')')
-                .append('g');
-                /*.call(d3.drag()
-                    .on("start", dragstarted)
-                    .on("drag", dragged)
-                    .on("end", dragended));*/
+                .append('g').on('mousedown', putDragged).on('mousemove', moveDragged);
+
+            /*.call(d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended));*/
             backdropContainer = view
                 .append('g')
                 .attr('transform', function () {
@@ -117,23 +136,10 @@ export class GardenEditor {
                 .attr('fill', "black")
                 .attr('opacity', '0');
 
-            backdrop.on('mousedown', function () {
-                var mouse = d3.mouse(this);
-                if (draggedSvg && svg) {
-                    newItem(snapToGrid(mouse[0] - cubeResolution - 10, cubeResolution), snapToGrid(mouse[1] - cubeResolution - 10, cubeResolution));
-                }
-            }).on('mousemove', function () {
-                var mouse = d3.mouse(this);
-                if (draggedSvg) {
-                    var x = mouse[0] - cubeResolution - 10;
-                    var y = mouse[1] - cubeResolution - 10;
-                    draggedSvg.attr('x', x);
-                    draggedSvg.attr('y', y);
-                }
-            });
-            
+            backdrop.on('mousedown', putDragged).on('mousemove', moveDragged);
+
             item = itemContainer.append('rect').attr('class', 'table-graphic')
-                .attr('x', (d:any) => d.x)
+                .attr('x', (d: any) => d.x)
                 .attr('y', (d: any) => d.y)
                 .attr('data-rotation', 0)
                 .attr('width', cubeResolution)
@@ -157,7 +163,7 @@ export class GardenEditor {
 
             svg.call(zoom);
 
-        }
+        };
         draw();
 
         d3.select(".bt")
