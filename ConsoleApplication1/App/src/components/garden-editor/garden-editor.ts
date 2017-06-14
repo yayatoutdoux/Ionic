@@ -218,8 +218,8 @@ export class GardenEditor {
             if (d3.event.defaultPrevented) d3.event.stopPropagation();
         }
 
-        function snapToGrid(p:any, r:any) {
-            return Math.round(p / r) * r;
+        function snapToGrid(p: any, r: any) {
+            return Math.max(Math.round(p / r) * r, 0);
         }
 
         function coorNum(pt:any) {
@@ -229,12 +229,12 @@ export class GardenEditor {
             };
         }
 
-        function getCenter(x: any, y: any, w: any, h: any) {
+        /*function getCenter(x: any, y: any, w: any, h: any) {
             return {
                 x: parseInt(x, 10) + parseInt(w, 10) / 2,
                 y: parseInt(y, 10) + parseInt(h) / 2
             }
-        };
+        };*/
         function findAndUpdate(oldPt: any, newPt: any) {
             for (var i = 0; i < points.length; i++) {
                 if (points[i].x === oldPt.x && points[i].y === oldPt.y) {
@@ -259,7 +259,6 @@ export class GardenEditor {
                     x: elBox.x,
                     y: elBox.y
                 };
-                console.log(previousDraggedPosition);
             }
         }
 
@@ -270,7 +269,7 @@ export class GardenEditor {
                 .select('.table-graphic')
                 .attr("x", d.x = snapToGrid(d3.event.x, cubeResolution))
                 .attr("y", d.y = snapToGrid(d3.event.y, cubeResolution));
-            var center = getCenter(el.attr('x'), el.attr('y'), cubeResolution, cubeResolution);
+            //var center = getCenter(el.attr('x'), el.attr('y'), cubeResolution, cubeResolution);
             /*el.attr('transform', () => {
                 return "rotate(" + el.attr('data-rotation') + "," + center.x + ',' + center.y + ")";
             })*/
