@@ -53,7 +53,7 @@ export class GardenEditor {
 
         //w > h !!!!!!!!
         var xScale = d3.scaleLinear()
-            .domain([0, (width) / (height) * this.garden.height])
+            .domain([0, (width) / (height) * this.garden.width])
             .range([0, width]);
 
         var yScale = d3.scaleLinear()
@@ -72,8 +72,7 @@ export class GardenEditor {
 
         var zoom = d3.zoom()
             .scaleExtent([1, 40])
-            .translateExtent([[0, 0], [this.garden.width, this.garden.height]])
-            .extent([[0, 0], [this.garden.width, this.garden.height]])
+            .translateExtent([[0, 0], [width, height]])
             .on("zoom", zoomed);
 
         var draw = () => {
@@ -176,6 +175,7 @@ export class GardenEditor {
             view.attr("transform", d3.event.transform);
             gX.call(xAxis.scale(d3.event.transform.rescaleX(xScale)));
             gY.call(yAxis.scale(d3.event.transform.rescaleY(yScale)));
+
             //cubeResolution = 50/xScale(1);
             //slider.property("value", d3.event.scale);
         }
