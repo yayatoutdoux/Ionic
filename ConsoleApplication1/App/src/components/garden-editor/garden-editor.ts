@@ -43,7 +43,7 @@ export class GardenEditor {
         var item: any = null;
         var selected: any = null;
         var previousDraggedPosition: any = null;
-        var cubeResolution = 5;
+        var cubeResolution = 1;
         var width = containerStyle.width;
         var height = containerStyle.height;
         var points: any = [];
@@ -139,8 +139,8 @@ export class GardenEditor {
                 .attr('x', (d: any) => d.x)
                 .attr('y', (d: any) => d.y)
                 .attr('data-rotation', 0)
-                .attr('width', cubeResolution)
-                .attr('height', cubeResolution)
+                .attr('width', (d: any) => d.res)
+                .attr('height', (d: any) => d.res)
                 .attr('fill', 'blue')
                 .on('click', function () {
                     console.log('clicked');
@@ -191,7 +191,8 @@ export class GardenEditor {
         function newItem(x:any, y:any) {
             points.push({
                 x: x,
-                y: y
+                y: y,
+                res: cubeResolution
             });
             clearDrawing();
             draw();
@@ -210,7 +211,7 @@ export class GardenEditor {
         }
 
         function snapToGrid(p: any, r: any) {
-            return Math.max(Math.floor(p / r) * r, 0);
+            return Math.max(Math.floor(p)/* / r) * r*/, 0);
         }
 
         function coorNum(pt:any) {
@@ -268,8 +269,24 @@ export class GardenEditor {
             if (pt) {
                 previousDraggedPosition = pt;
             };
-            console.log(previousDraggedPosition);
         }
+        
+
+        var slided = function () {
+            alert(slider.property("value"));
+            cubeResolution = slider.property("value");
+        }
+
+        var slider = d3.select(".button-container").append("input")
+            .datum({})
+            .attr("type", "range")
+            .attr("value", 1)
+            .attr("min", 1)
+            .attr("max", Math.min(this.garden.height, this.garden.width))
+            .attr("step", 1)
+            .on("input", slided);
+
+        
     }
    
     ngAfterContentInit()
