@@ -31,7 +31,6 @@ export class GardenEditor {
     initSvg() {
 
         var containerStyle = document.querySelector('#chart-container').getBoundingClientRect();
-
         var svg:any = null;
         var view:any = null;
         var gX:any = null;
@@ -44,23 +43,19 @@ export class GardenEditor {
         var item: any = null;
         var selected: any = null;
         var previousDraggedPosition: any = null;
-        
-        var cubeResolution = 50;
-
-        
+        var cubeResolution = 5;
         var width = containerStyle.width;
         var height = containerStyle.height;
         var points: any = [];
-        this.garden.height = 60;
-        this.garden.width = 60;
 
         //w > h !!!!!!!!
+
         var xScale = d3.scaleLinear()
-            .domain([0, (width) / (height) * this.garden.width])
+            .domain([0, width])
             .range([0, width]);
 
         var yScale = d3.scaleLinear()
-            .domain([0, this.garden.height])
+            .domain([0, height])
             .range([0, height]);
 
         var xAxis = d3.axisBottom(xScale)
@@ -81,15 +76,15 @@ export class GardenEditor {
         var putDragged = function() {
             var mouse = d3.mouse(this);
             if (draggedSvg && svg) {
-                newItem(snapToGrid(mouse[0] - cubeResolution - 10, cubeResolution), snapToGrid(mouse[1] - cubeResolution - 10, cubeResolution));
+                newItem(snapToGrid(mouse[0], cubeResolution), snapToGrid(mouse[1], cubeResolution));
             }
         };
 
         var moveDragged = function () {
             var mouse = d3.mouse(this);
             if (draggedSvg) {
-                var x = mouse[0] - cubeResolution - 10;
-                var y = mouse[1] - cubeResolution - 10;
+                var x = mouse[0] - cubeResolution/2;
+                var y = mouse[1] - cubeResolution/2;
                 draggedSvg.attr('x', x);
                 draggedSvg.attr('y', y);
             }
@@ -172,7 +167,7 @@ export class GardenEditor {
             .on("click", resetted);
         
         function addRect() {
-            draggedSvg = backdropContainer.append('rect').attr('width', cubeResolution).attr('height', cubeResolution);
+            draggedSvg = backdropContainer.append('rect').attr('width', cubeResolution).attr('height', cubeResolution).on('mousedown', putDragged).on('mousemove', moveDragged);
         }
 
         d3.select(".bt2")
@@ -214,12 +209,8 @@ export class GardenEditor {
             }
         }
 
-        function stopped() {
-            if (d3.event.defaultPrevented) d3.event.stopPropagation();
-        }
-
         function snapToGrid(p: any, r: any) {
-            return Math.max(Math.round(p / r) * r, 0);
+            return Math.max(Math.floor(p / r) * r, 0);
         }
 
         function coorNum(pt:any) {
@@ -229,12 +220,7 @@ export class GardenEditor {
             };
         }
 
-        /*function getCenter(x: any, y: any, w: any, h: any) {
-            return {
-                x: parseInt(x, 10) + parseInt(w, 10) / 2,
-                y: parseInt(y, 10) + parseInt(h) / 2
-            }
-        };*/
+        
         function findAndUpdate(oldPt: any, newPt: any) {
             for (var i = 0; i < points.length; i++) {
                 if (points[i].x === oldPt.x && points[i].y === oldPt.y) {
@@ -269,11 +255,6 @@ export class GardenEditor {
                 .select('.table-graphic')
                 .attr("x", d.x = snapToGrid(d3.event.x, cubeResolution))
                 .attr("y", d.y = snapToGrid(d3.event.y, cubeResolution));
-            //var center = getCenter(el.attr('x'), el.attr('y'), cubeResolution, cubeResolution);
-            /*el.attr('transform', () => {
-                return "rotate(" + el.attr('data-rotation') + "," + center.x + ',' + center.y + ")";
-            })*/
-            //el.call(collide, el);
         }
 
         function dragended(d: any) {

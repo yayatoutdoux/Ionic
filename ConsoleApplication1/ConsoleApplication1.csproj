@@ -56,7 +56,6 @@
     <None Include="App\package.json" />
     <None Include="App\resources\icon.psd" />
     <None Include="App\src\app\app.scss" />
-    <None Include="App\src\assets\data\Class1.json" />
     <None Include="App\src\assets\data\data.json" />
     <None Include="App\src\assets\img\appicon.svg" />
     <None Include="App\src\assets\img\ionic-logo-white.svg" />

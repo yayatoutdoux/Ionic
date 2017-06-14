@@ -14,7 +14,12 @@ var svg = null,
     gX = null,
     gY = null,
     currentTransform = null;
-
+/*function getCenter(x: any, y: any, w: any, h: any) {
+            return {
+                x: parseInt(x, 10) + parseInt(w, 10) / 2,
+                y: parseInt(y, 10) + parseInt(h) / 2
+            }
+        };*/
 
 var zoom = d3.zoom()
     .scaleExtent([0.5, 5])

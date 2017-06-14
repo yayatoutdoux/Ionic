@@ -414,7 +414,7 @@
       "lat": 43.071584,
       "lng": -89.380120,
       "plantIds": [ 1, 1 ],
-      "height": 10,
+      "height": 99,
       "width": 10,
       "gardenMap": [
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -437,8 +437,8 @@
       "lat": 43.071584,
       "lng": -89.380120,
       "plantIds": [ 1, 1 ],
-      "height": 20,
-      "width": 20
+      "height": 30,
+      "width": 99
     },
     {
       "name": "Second garden",
