@@ -43,7 +43,10 @@ export class GardenEditor {
         var draggedSvg: any = null;
         var item: any = null;
         var selected: any = null;
+        var previousDraggedPosition: any = null;
+        
         var cubeResolution = 50;
+
         
         var width = containerStyle.width;
         var height = containerStyle.height;
@@ -114,12 +117,11 @@ export class GardenEditor {
             itemContainer = view.selectAll("g").attr("class", "itemContainer")
                 .data(points).enter().append('g')
                 .attr("transform", () => 'translate(' + xScale(0) + ',' + yScale(0) + ')')
-                .append('g').on('mousedown', putDragged).on('mousemove', moveDragged);
-
-            /*.call(d3.drag()
-                .on("start", dragstarted)
-                .on("drag", dragged)
-                .on("end", dragended));*/
+                .append('g').on('mousedown', putDragged).on('mousemove', moveDragged)
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended));
             backdropContainer = view
                 .append('g')
                 .attr('transform', function () {
@@ -218,6 +220,75 @@ export class GardenEditor {
 
         function snapToGrid(p:any, r:any) {
             return Math.round(p / r) * r;
+        }
+
+        function coorNum(pt:any) {
+            return {
+                x: parseInt(pt.x, 10),
+                y: parseInt(pt.y, 10)
+            };
+        }
+
+        function getCenter(x: any, y: any, w: any, h: any) {
+            return {
+                x: parseInt(x, 10) + parseInt(w, 10) / 2,
+                y: parseInt(y, 10) + parseInt(h) / 2
+            }
+        };
+        function findAndUpdate(oldPt: any, newPt: any) {
+            for (var i = 0; i < points.length; i++) {
+                if (points[i].x === oldPt.x && points[i].y === oldPt.y) {
+                    points[i] = {
+                        x: newPt.x,
+                        y: newPt.y
+                    };
+                    return points[i];
+                }
+            }
+        }
+        function dragstarted(d: any) {
+            var el = d3.select(this);
+            savePreviousDragPoint(el);
+            el.raise().classed("dragging", true);
+        }
+
+        function savePreviousDragPoint(el:any) {
+            var elBox = el.nodes()[0].getBBox();
+            if (!el.nodes()[0].classList.contains('dragging')) {
+                previousDraggedPosition = {
+                    x: elBox.x,
+                    y: elBox.y
+                };
+                console.log(previousDraggedPosition);
+            }
+        }
+
+        function dragged(d: any) {
+            selected = this;
+            console.log(d3.event.x);
+            var el = d3.select(this)
+                .select('.table-graphic')
+                .attr("x", d.x = snapToGrid(d3.event.x, cubeResolution))
+                .attr("y", d.y = snapToGrid(d3.event.y, cubeResolution));
+            var center = getCenter(el.attr('x'), el.attr('y'), cubeResolution, cubeResolution);
+            /*el.attr('transform', () => {
+                return "rotate(" + el.attr('data-rotation') + "," + center.x + ',' + center.y + ")";
+            })*/
+            //el.call(collide, el);
+        }
+
+        function dragended(d: any) {
+            d3.select(this).classed("dragging", false);
+            var newEl = d3.select(this).select('.table-graphic');
+            var newPt = {
+                x: newEl.attr('x'),
+                y: newEl.attr('y')
+            };
+            var pt = findAndUpdate(coorNum(previousDraggedPosition), coorNum(newPt));
+            if (pt) {
+                previousDraggedPosition = pt;
+            };
+            console.log(previousDraggedPosition);
         }
     }
    

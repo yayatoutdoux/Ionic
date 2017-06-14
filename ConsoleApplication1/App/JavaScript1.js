@@ -135,23 +135,7 @@ d3.select("button")
 
 
 
-function dragstarted(d) {
-    var el = d3.select(this);
-    savePreviousDragPoint(el);
-    el.raise().classed("dragging", true);
 
-}
-
-function savePreviousDragPoint(el) {
-    var elBox = el.nodes()[0].getBBox();
-    if (!el.nodes()[0].classList.contains('dragging')) {
-
-        previousDraggedPosition = {
-            x: elBox.x,
-            y: elBox.y
-        };
-    }
-}
 
 function rotate(d) {
     if (selected) {
@@ -168,12 +152,7 @@ function rotate(d) {
     }
 }
 
-function getCenter(x, y, w, h) {
-    return {
-        x: parseInt(x, 10) + parseInt(w, 10) / 2,
-        y: parseInt(y, 10) + parseInt(h) / 2
-    }
-};
+
 
 
 function collide(d, element) {
@@ -218,47 +197,13 @@ function collide(d, element) {
     });
 }
 
-function dragged(d) {
-    selected = this;
-    var el = d3.select(this).select('.table-graphic').attr("x", (d) => snapToGrid(d3.event.x, cubeResolution)).attr("y", () => snapToGrid(d3.event.y, cubeResolution))
-    var center = getCenter(el.attr('x'), el.attr('y'), cubeResolution, cubeResolution);
-    el.attr('transform', () => {
-        return "rotate(" + el.attr('data-rotation') + "," + center.x + ',' + center.y + ")";
-    })
-    el.call(collide, el);
-}
 
-function findAndUpdate(oldPt, newPt) {
-    for (var i = 0; i < points.length; i++) {
-        if (points[i].x === oldPt.x && points[i].y === oldPt.y) {
-            points[i] = {
-                x: newPt.x,
-                y: newPt.y
-            };
-            return points[i];
-        }
-    }
-}
 
-function coorNum(pt) {
-    return {
-        x: parseInt(pt.x, 10),
-        y: parseInt(pt.y, 10)
-    };
-}
 
-function dragended(d) {
-    d3.select(this).classed("dragging", false);
-    var newEl = d3.select(this).select('.table-graphic');
-    newPt = {
-        x: newEl.attr('x'),
-        y: newEl.attr('y')
-    };
-    pt = findAndUpdate(coorNum(previousDraggedPosition), coorNum(newPt));
-    if (pt) {
-        previousDraggedPosition = pt
-    };
-}
+
+
+
+
 
 function slided(d) {
     zoom.scaleTo(svg, d3.select(this).property("value"));
