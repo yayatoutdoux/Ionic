@@ -197,7 +197,6 @@ export class GardenEditor {
             view.attr("transform", d3.event.transform);
             gX.call(xAxis.scale(d3.event.transform.rescaleX(xScale)));
             gY.call(yAxis.scale(d3.event.transform.rescaleY(yScale)));
-            //slider.property("value", d3.event.scale);
         }
 
         function resetted() {
@@ -299,7 +298,7 @@ export class GardenEditor {
             .attr("step", 1)
             .on("input", slided);
 
-        svg.call(zoom.transform, d3.zoomIdentity.translate(0, 0).scale(scale));
+        svg.call(zoom.transform, d3.zoomIdentity.translate(0, 0).scale(scale - scale * 0.05));
     }
    
     ngAfterContentInit()
