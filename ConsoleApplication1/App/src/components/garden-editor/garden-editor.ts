@@ -61,7 +61,7 @@ export class GardenEditor {
 
         var zoom = d3.zoom()
             .scaleExtent([1, 40])
-            .translateExtent([[0, 0], [width, height]])
+            .translateExtent([[0, 0], [Math.max(width, this.garden.width + 50), Math.max(height, this.garden.height + 50)]])
             .on("zoom", zoomed);
 
         var putDragged = function() {
@@ -80,7 +80,6 @@ export class GardenEditor {
                 draggedSvg.attr('y', y);
             }
         };
-
 
         var draw = () => {
             svg = d3.select("#chart-container").append('svg');
