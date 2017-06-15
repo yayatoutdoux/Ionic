@@ -171,6 +171,11 @@ export class GardenEditor {
         };
         draw();
 
+        //Autozoom
+        var scaleX = width / this.garden.width;
+        var scaleY = height / this.garden.height;
+        var scale = Math.min(scaleX, scaleY);
+
         function addRect() {
             draggedSvg = backdropContainer
                 .append('rect')
@@ -294,6 +299,7 @@ export class GardenEditor {
             .attr("step", 1)
             .on("input", slided);
 
+        svg.call(zoom.transform, d3.zoomIdentity.translate(0, 0).scale(scale));
     }
    
     ngAfterContentInit()
