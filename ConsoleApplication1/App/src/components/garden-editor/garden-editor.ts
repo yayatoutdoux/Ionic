@@ -2,6 +2,7 @@ import { Component, ViewChild, Input } from '@angular/core';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import * as d3 from 'd3';
+import * as textures from 'textures';
 import { Slides, ActionSheet, ActionSheetController, Config, AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, ToastController, LoadingController, Refresher } from 'ionic-angular';
 
 import { ConferenceData } from '../../providers/conference-data';
@@ -92,8 +93,15 @@ export class GardenEditor {
             svg.attr("width", width);
             svg.attr("height", height);
 
+            //Texture
+            var t = textures.lines()
+                .thicker();
+
+            svg.call(t);
+
             view = svg.append("g")
                 .attr("class", "view");
+                //.style("fill", t.url());
 
             if (currentTransform)
                 view.attr('transform', currentTransform);
@@ -279,6 +287,7 @@ export class GardenEditor {
             .attr("max", Math.min(this.garden.height, this.garden.width))
             .attr("step", 1)
             .on("input", slided);
+
     }
    
     ngAfterContentInit()
