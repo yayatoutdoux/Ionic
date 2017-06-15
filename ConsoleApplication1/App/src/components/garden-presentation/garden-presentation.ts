@@ -33,6 +33,7 @@ export class GardenPresentation {
 
     openEditor() {
         this.slides.lockSwipes(false);
+        
         this.slides.slideTo(1);
         this.slides.lockSwipes(true);
     }

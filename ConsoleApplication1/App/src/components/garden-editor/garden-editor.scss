@@ -19,5 +19,9 @@ garden-editor {
         width: 100%;
         height: 70vh;
         display: block;
+        border: 1px solid black;
+    }
+    .scroll-content {
+        padding:0;
     }
 }
