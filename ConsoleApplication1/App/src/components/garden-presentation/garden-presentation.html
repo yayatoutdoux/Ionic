@@ -1,0 +1,41 @@
+<ion-grid fixed>
+    <ion-row align-items-stretch>
+        <ion-col col-12 col-md-4 align-self-stretch align-self-center approxItemHeight="457px">
+            <div text-center>
+                <img [src]="garden.profilePic" [alt]="garden.name"><br>
+
+                <button ion-button icon-only clear small color="twitter">
+                    <ion-icon name="logo-twitter"></ion-icon>
+                </button>
+                <button ion-button icon-only clear small color="github">
+                    <ion-icon name="logo-github"></ion-icon>
+                </button>
+                <button ion-button icon-only clear small color="instagram">
+                    <ion-icon name="logo-instagram"></ion-icon>
+                </button>
+            </div>
+        </ion-col>
+        <ion-col col-12 col-md-8 align-self-stretch align-self-center approxItemHeight="457px">
+            <ion-card class="garden-card">
+                <ion-card-header>
+                    Infos
+                </ion-card-header>
+                <ion-card-content>
+                    <div text-left>
+                        <p>{{garden.description}}</p>
+                        <p>{{garden.description}}</p>
+                        <p>{{garden.description}}</p>
+                        <p>{{garden.description}}</p>
+                        <p>{{garden.description}}</p>
+                        <p>{{garden.description}}</p>
+                        <p>{{garden.description}}</p>
+                        <p>{{garden.description}}</p>
+                        <p>{{garden.description}}</p>
+                        <p>{{garden.plants.length}}</p>
+                    </div>
+                    <button class="" (click)="openEditor()">Open editor</button>
+                </ion-card-content>
+            </ion-card>
+        </ion-col>
+    </ion-row>
+</ion-grid>

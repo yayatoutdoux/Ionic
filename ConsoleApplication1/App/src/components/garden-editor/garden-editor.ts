@@ -2,13 +2,7 @@ import { Component, ViewChild, Input } from '@angular/core';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import * as d3 from 'd3';
-import { ActionSheet, ActionSheetController, Config, AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, ToastController, LoadingController, Refresher } from 'ionic-angular';
-
-/*
-  To learn how to use third party libs in an
-  Ionic app check out our docs here: http://ionicframework.com/docs/v2/resources/third-party-libs/
-*/
-// import moment from 'moment';
+import { Slides, ActionSheet, ActionSheetController, Config, AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, ToastController, LoadingController, Refresher } from 'ionic-angular';
 
 import { ConferenceData } from '../../providers/conference-data';
 import { UserData } from '../../providers/user-data';
@@ -23,11 +17,13 @@ import { GardenDetailPage } from '../garden-detail/garden-detail';
 })
 export class GardenEditor {
     @Input() garden : any;
+    @Input() slides: Slides;
 
     constructor(
     ) {
         
     }
+
     initSvg() {
 
         var containerStyle = document.querySelector('#chart-container').getBoundingClientRect();
@@ -102,8 +98,7 @@ export class GardenEditor {
             if (currentTransform)
                 view.attr('transform', currentTransform);
 
-            itemContainer = view.append("rect")
-                .attr("class", "view")
+            view.append("rect")
                 .attr("x", 0)
                 .attr("y", 0)
                 .attr("width", this.garden.width * xScale(1))
@@ -117,11 +112,13 @@ export class GardenEditor {
                     .on("start", dragstarted)
                     .on("drag", dragged)
                     .on("end", dragended));
+
             backdropContainer = view
                 .append('g')
                 .attr('transform', function () {
                     return 'translate(' + xScale(0) + ',' + yScale(0) + ')';
                 });
+
             backdrop = backdropContainer
                 .lower()
                 .append('rect')
@@ -133,7 +130,9 @@ export class GardenEditor {
                 .attr('fill', "black")
                 .attr('opacity', '0');
 
-            backdrop.on('mousedown', putDragged).on('mousemove', moveDragged);
+            backdrop
+                .on('mousedown', putDragged)
+                .on('mousemove', moveDragged);
 
             item = itemContainer.append('rect').attr('class', 'table-graphic')
                 .attr('x', (d: any) => d.x)
@@ -150,6 +149,7 @@ export class GardenEditor {
             /*svg.call(zoom)
                 .on("wheel.zoom", null)
                 .on('dblclick.zoom', null);*/
+
             gX = svg.append("g")
                 .attr("class", "axis axis--x")
                 .call(xAxis);
@@ -159,16 +159,15 @@ export class GardenEditor {
                 .call(yAxis);
 
             svg.call(zoom);
-
         };
         draw();
 
-        d3.select(".bt")
-            .on("click", resetted);
-        
         function addRect() {
             draggedSvg = backdropContainer.append('rect').attr('width', cubeResolution).attr('height', cubeResolution).on('mousedown', putDragged).on('mousemove', moveDragged);
         }
+
+        d3.select(".bt")
+            .on("click", resetted);
 
         d3.select(".bt2")
             .on("click", addRect);
@@ -178,15 +177,12 @@ export class GardenEditor {
             view.attr("transform", d3.event.transform);
             gX.call(xAxis.scale(d3.event.transform.rescaleX(xScale)));
             gY.call(yAxis.scale(d3.event.transform.rescaleY(yScale)));
-
-            //cubeResolution = 50/xScale(1);
             //slider.property("value", d3.event.scale);
         }
 
         function resetted() {
             svg.call(zoom.transform, d3.zoomIdentity);
         }
-
 
         function newItem(x:any, y:any) {
             points.push({
@@ -199,9 +195,9 @@ export class GardenEditor {
         }
 
         function clearDrawing() {
-            if (draggedSvg) draggedSvg.remove();
+            if (draggedSvg)
+                draggedSvg.remove();
             draggedSvg = null;
-            //newElementData = null;
             if (svg) {
                 svg.on('mousedown', null);
                 view.exit().remove();
@@ -271,9 +267,7 @@ export class GardenEditor {
             };
         }
         
-
         var slided = function () {
-            alert(slider.property("value"));
             cubeResolution = slider.property("value");
         }
 
@@ -285,12 +279,16 @@ export class GardenEditor {
             .attr("max", Math.min(this.garden.height, this.garden.width))
             .attr("step", 1)
             .on("input", slided);
-
-        
     }
    
     ngAfterContentInit()
     {
         this.initSvg();
+    }
+
+    goToPresentation() {
+        this.slides.lockSwipes(false);
+        this.slides.slideTo(0);
+        this.slides.lockSwipes(true);
     }
 }

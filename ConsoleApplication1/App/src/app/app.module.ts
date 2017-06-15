@@ -24,6 +24,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { SupportPage } from '../pages/support/support';
 
 import { GardenEditor } from '../components/garden-editor/garden-editor';
+import { GardenPresentation } from '../components/garden-presentation/garden-presentation';
 
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
@@ -43,7 +44,8 @@ import { UserData } from '../providers/user-data';
     SupportPage,
     NewGardenPage,
     SessionDetailPage,
-    GardenEditor
+    GardenEditor,
+    GardenPresentation
   ],
   imports: [
     BrowserModule,
@@ -78,7 +80,8 @@ import { UserData } from '../providers/user-data';
     TabsPage,
     SupportPage,
     NewGardenPage,
-    GardenEditor
+    GardenEditor,
+    GardenPresentation
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },

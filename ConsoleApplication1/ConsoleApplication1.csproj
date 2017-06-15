@@ -59,6 +59,7 @@
     <None Include="App\src\assets\data\data.json" />
     <None Include="App\src\assets\img\appicon.svg" />
     <None Include="App\src\assets\img\ionic-logo-white.svg" />
+    <None Include="App\src\components\garden-presentation\garden-presentation.scss" />
     <None Include="App\src\manifest.json" />
     <None Include="App\src\pages\about\about.scss" />
     <None Include="App\src\pages\account\account.scss" />
@@ -195,6 +196,7 @@
     <Content Include="App\src\assets\img\speakers\puppy.jpg" />
     <Content Include="App\src\assets\img\speakers\rabbit.jpg" />
     <Content Include="App\src\assets\img\speakers\turtle.jpg" />
+    <Content Include="App\src\components\garden-presentation\garden-presentation.html" />
     <Content Include="App\src\index.html" />
     <Content Include="App\src\pages\about\about.html" />
     <Content Include="App\src\pages\account\account.html" />
@@ -245,6 +247,7 @@
     <TypeScriptCompile Include="App\src\app\app.component.ts" />
     <TypeScriptCompile Include="App\src\app\app.module.ts" />
     <TypeScriptCompile Include="App\src\app\main.ts" />
+    <TypeScriptCompile Include="App\src\components\garden-presentation\garden-presentation.ts" />
     <TypeScriptCompile Include="App\src\declarations.d.ts" />
     <TypeScriptCompile Include="App\src\pages\about-popover\about-popover.ts" />
     <TypeScriptCompile Include="App\src\pages\about\about.ts" />
