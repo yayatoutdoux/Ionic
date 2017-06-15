@@ -3,14 +3,8 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import * as d3 from 'd3';
 import * as textures from 'textures';
+
 import { Slides, ActionSheet, ActionSheetController, Config, AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, ToastController, LoadingController, Refresher } from 'ionic-angular';
-
-import { ConferenceData } from '../../providers/conference-data';
-import { UserData } from '../../providers/user-data';
-
-import { SessionDetailPage } from '../session-detail/session-detail';
-import { GardenDetailPage } from '../garden-detail/garden-detail';
-
 
 @Component({
   selector: 'garden-editor',
@@ -255,8 +249,7 @@ export class GardenEditor {
 
         function dragged(d: any) {
             selected = this;
-            console.log(d3.event.x);
-            var el = d3.select(this)
+            /*var el = */d3.select(this)
                 .select('.table-graphic')
                 .attr("x", d.x = snapToGrid(d3.event.x, cubeResolution))
                 .attr("y", d.y = snapToGrid(d3.event.y, cubeResolution));
