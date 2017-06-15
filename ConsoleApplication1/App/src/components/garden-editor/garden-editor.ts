@@ -200,7 +200,7 @@ export class GardenEditor {
         }
 
         function resetted() {
-            svg.call(zoom.transform, d3.zoomIdentity);
+            svg.call(zoom.transform, d3.zoomIdentity.translate(0, 0).scale(scale - scale * 0.05));
         }
 
         function newItem(x:any, y:any) {
@@ -298,7 +298,7 @@ export class GardenEditor {
             .attr("step", 1)
             .on("input", slided);
 
-        svg.call(zoom.transform, d3.zoomIdentity.translate(0, 0).scale(scale - scale * 0.05));
+        resetted();
     }
    
     ngAfterContentInit()
