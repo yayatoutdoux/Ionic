@@ -97,10 +97,12 @@ export class GardenEditor {
                 .attr("class", "view");
                 //.style("fill", t.url());
 
-            if (currentTransform)
+            if (currentTransform) {
                 view.attr('transform', currentTransform);
+            }
 
             view.append("rect")
+                .attr("class", "view-rect")
                 .attr("x", 0)
                 .attr("y", 0)
                 .attr("width", this.garden.width * xScale(1))
@@ -160,12 +162,23 @@ export class GardenEditor {
                 .attr("class", "axis axis--y")
                 .call(yAxis);
 
-            svg.call(zoom);
+            svg
+                .call(zoom)
+
+            if (currentTransform) {
+                svg.call(zoom.transform, d3.zoomIdentity.translate(currentTransform.x, currentTransform.y).scale(currentTransform.k));
+            }
         };
         draw();
 
         function addRect() {
-            draggedSvg = backdropContainer.append('rect').attr('width', cubeResolution).attr('height', cubeResolution).on('mousedown', putDragged).on('mousemove', moveDragged);
+            draggedSvg = backdropContainer
+                .append('rect')
+                .attr('width', cubeResolution)
+                .attr('height', cubeResolution)
+                .on('mousedown', putDragged)
+                .on('mousemove', moveDragged)
+                .attr('fill', 'blue');
         }
 
         d3.select(".bt")

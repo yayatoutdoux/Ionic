@@ -10,6 +10,11 @@ garden-editor {
 
     .view {
       fill: none;
+      stroke: none;
+    }
+
+    .view-rect {
+      fill: none;
       stroke: #000;
       stroke-opacity:0.3;
     }
