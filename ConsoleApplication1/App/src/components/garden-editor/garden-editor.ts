@@ -20,7 +20,9 @@ export class GardenEditor {
     }
 
     initSvg() {
-
+        //////////////////
+        //VARS////////////
+        //////////////////
         var containerStyle = document.querySelector('#chart-container').getBoundingClientRect();
         var svg:any = null;
         var view:any = null;
@@ -39,8 +41,9 @@ export class GardenEditor {
         var height = containerStyle.height;
         var points: any = [];
 
-        //w > h !!!!!!!!
-
+        //////////////////
+        //AXIS////////////
+        //////////////////
         var xScale = d3.scaleLinear()
             .domain([0, width])
             .range([0, width]);
@@ -59,11 +62,28 @@ export class GardenEditor {
             .tickSize(width)
             .tickPadding(8 - width);
 
+        //////////////////
+        //ZOOM////////////
+        //////////////////
         var zoom = d3.zoom()
             .scaleExtent([1, 40])
             .translateExtent([[0, 0], [Math.max(width, this.garden.width + 50), Math.max(height, this.garden.height + 50)]])
             .on("zoom", zoomed);
 
+        var scaleX = width / this.garden.width;
+        var scaleY = height / this.garden.height;
+        var scale = Math.min(scaleX, scaleY);
+
+        function zoomed() {
+            currentTransform = d3.event.transform;
+            view.attr("transform", d3.event.transform);
+            gX.call(xAxis.scale(d3.event.transform.rescaleX(xScale)));
+            gY.call(yAxis.scale(d3.event.transform.rescaleY(yScale)));
+        }
+
+        //////////////////
+        //ADD RECT////////////
+        //////////////////
         var putDragged = function() {
             var mouse = d3.mouse(this);
             if (draggedSvg && svg) {
@@ -81,6 +101,22 @@ export class GardenEditor {
             }
         };
 
+        function addRect() {
+            draggedSvg = backdropContainer
+                .append('rect')
+                .attr('width', cubeResolution)
+                .attr('height', cubeResolution)
+                .on('mousedown', putDragged)
+                .on('mousemove', moveDragged)
+                .attr('fill', 'blue');
+        }
+
+        d3.select(".bt2")
+            .on("click", addRect);
+
+        //////////////////
+        //DRAW////////////
+        //////////////////
         var draw = () => {
             svg = d3.select("#chart-container").append('svg');
             svg.attr("width", width);
@@ -168,36 +204,24 @@ export class GardenEditor {
                 svg.call(zoom.transform, d3.zoomIdentity.translate(currentTransform.x, currentTransform.y).scale(currentTransform.k));
             }
         };
-        draw();
 
-        //Autozoom
-        var scaleX = width / this.garden.width;
-        var scaleY = height / this.garden.height;
-        var scale = Math.min(scaleX, scaleY);
-
-        function addRect() {
-            draggedSvg = backdropContainer
-                .append('rect')
-                .attr('width', cubeResolution)
-                .attr('height', cubeResolution)
-                .on('mousedown', putDragged)
-                .on('mousemove', moveDragged)
-                .attr('fill', 'blue');
+        function clearDrawing() {
+            if (draggedSvg)
+                draggedSvg.remove();
+            draggedSvg = null;
+            if (svg) {
+                svg.on('mousedown', null);
+                view.exit().remove();
+                svg.remove();
+                svg = null;
+            }
         }
-
+        //////////////////
+        //RESET////////////
+        //////////////////
         d3.select(".bt")
             .on("click", resetted);
-
-        d3.select(".bt2")
-            .on("click", addRect);
-
-        function zoomed() {
-            currentTransform = d3.event.transform;
-            view.attr("transform", d3.event.transform);
-            gX.call(xAxis.scale(d3.event.transform.rescaleX(xScale)));
-            gY.call(yAxis.scale(d3.event.transform.rescaleY(yScale)));
-        }
-
+        
         function resetted() {
             svg.call(zoom.transform, d3.zoomIdentity.translate(0, 0).scale(scale - scale * 0.05));
         }
@@ -212,18 +236,10 @@ export class GardenEditor {
             draw();
         }
 
-        function clearDrawing() {
-            if (draggedSvg)
-                draggedSvg.remove();
-            draggedSvg = null;
-            if (svg) {
-                svg.on('mousedown', null);
-                view.exit().remove();
-                svg.remove();
-                svg = null;
-            }
-        }
-
+        
+        //////////////////
+        //HELPERS////////////
+        //////////////////
         function snapToGrid(p: any, r: any) {
             return Math.max(Math.floor(p)/* / r) * r*/, 0);
         }
@@ -235,7 +251,6 @@ export class GardenEditor {
             };
         }
 
-        
         function findAndUpdate(oldPt: any, newPt: any) {
             for (var i = 0; i < points.length; i++) {
                 if (points[i].x === oldPt.x && points[i].y === oldPt.y) {
@@ -247,6 +262,10 @@ export class GardenEditor {
                 }
             }
         }
+
+        //////////////////
+        //DRAG N DROP////////////
+        //////////////////
         function dragstarted(d: any) {
             var el = d3.select(this);
             savePreviousDragPoint(el);
@@ -283,7 +302,10 @@ export class GardenEditor {
                 previousDraggedPosition = pt;
             };
         }
-        
+
+        //////////////////
+        //SLIDER////////////
+        //////////////////
         var slided = function () {
             cubeResolution = slider.property("value");
         }
@@ -297,6 +319,10 @@ export class GardenEditor {
             .attr("step", 1)
             .on("input", slided);
 
+        //////////////////
+        //PROCESS////////////
+        //////////////////
+        draw();
         resetted();
     }
    
