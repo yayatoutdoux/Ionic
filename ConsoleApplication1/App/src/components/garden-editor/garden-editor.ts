@@ -121,6 +121,26 @@ export class GardenEditor {
                 draggedSvg.style("visibility", "visible");
         };
 
+        var mouseLeaveComplete = function () {
+            hidden = true;
+            if (draggedSvg)
+                draggedSvg.style("visibility", "hidden");
+            gX.on('mouseleave', null)
+                .on('mouseenter', null);
+            gY.on('mouseleave', null)
+                .on('mouseenter', null);
+        };
+
+        var mouseEnterComplete = function () {
+            hidden = false;
+            if (draggedSvg)
+                draggedSvg.style("visibility", "visible");
+            gX.on('mouseleave', mouseLeave)
+                .on('mouseenter', mouseEnter);
+            gY.on('mouseleave', mouseLeave)
+                .on('mouseenter', mouseEnter);
+        };
+
         function addRect() {
             draggedSvg = backdropContainer
                 .append('rect')
@@ -198,8 +218,9 @@ export class GardenEditor {
 
             backdrop
                 .on('mousedown', putDragged)
-                .on('mousemove', moveDragged).on('mouseleave', mouseLeave)
-                .on('mouseenter', mouseEnter);
+                .on('mousemove', moveDragged)
+                .on('mouseleave', mouseLeaveComplete)
+                .on('mouseenter', mouseEnterComplete);
 
             item = itemContainer.append('rect').attr('class', 'table-graphic')
                 .attr('x', (d: any) => d.x)
