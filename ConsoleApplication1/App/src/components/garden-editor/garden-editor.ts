@@ -89,16 +89,36 @@ export class GardenEditor {
             if (draggedSvg && svg) {
                 newItem(snapToGrid(mouse[0], cubeResolution), snapToGrid(mouse[1], cubeResolution));
             }
+            addRect();
+            moveRect(mouse);
+        };
+
+        var moveRect = function (mouse : any) {
+            var x = mouse[0] - cubeResolution / 2;
+            var y = mouse[1] - cubeResolution / 2;
+            draggedSvg.attr('x', x);
+            draggedSvg.attr('y', y);
         };
 
         var moveDragged = function () {
             var mouse = d3.mouse(this);
             if (draggedSvg) {
-                var x = mouse[0] - cubeResolution/2;
-                var y = mouse[1] - cubeResolution/2;
-                draggedSvg.attr('x', x);
-                draggedSvg.attr('y', y);
+                moveRect(mouse);
             }
+        };
+
+        var hidden = false;
+
+        var mouseLeave = function () {
+            hidden = true;
+            if (draggedSvg)
+                draggedSvg.style("visibility", "hidden");
+        };
+
+        var mouseEnter = function () {
+            hidden = false;
+            if (draggedSvg)
+                draggedSvg.style("visibility", "visible");
         };
 
         function addRect() {
@@ -108,7 +128,10 @@ export class GardenEditor {
                 .attr('height', cubeResolution)
                 .on('mousedown', putDragged)
                 .on('mousemove', moveDragged)
-                .attr('fill', 'blue');
+                .on('mouseleave', mouseLeave)
+                .on('mouseenter', mouseEnter)
+                .attr('fill', 'blue')
+                .style("visibility", hidden ? "hidden" : "visible");
         }
 
         d3.select(".bt2")
@@ -146,7 +169,11 @@ export class GardenEditor {
             itemContainer = view.selectAll("g").attr("class", "itemContainer")
                 .data(points).enter().append('g')
                 .attr("transform", () => 'translate(' + xScale(0) + ',' + yScale(0) + ')')
-                .append('g').on('mousedown', putDragged).on('mousemove', moveDragged)
+                .append('g')
+                .on('mousedown', putDragged)
+                .on('mousemove', moveDragged)
+                .on('mouseleave', mouseLeave)
+                .on('mouseenter', mouseEnter)
                 .call(d3.drag()
                     .on("start", dragstarted)
                     .on("drag", dragged)
@@ -171,7 +198,8 @@ export class GardenEditor {
 
             backdrop
                 .on('mousedown', putDragged)
-                .on('mousemove', moveDragged);
+                .on('mousemove', moveDragged).on('mouseleave', mouseLeave)
+                .on('mouseenter', mouseEnter);
 
             item = itemContainer.append('rect').attr('class', 'table-graphic')
                 .attr('x', (d: any) => d.x)
@@ -190,11 +218,13 @@ export class GardenEditor {
                 .on('dblclick.zoom', null);*/
 
             gX = svg.append("g")
-                .attr("class", "axis axis--x")
+                .attr("class", "axis axis--x").on('mouseleave', mouseLeave)
+                .on('mouseenter', mouseEnter)
                 .call(xAxis);
 
             gY = svg.append("g")
-                .attr("class", "axis axis--y")
+                .attr("class", "axis axis--y").on('mouseleave', mouseLeave)
+                .on('mouseenter', mouseEnter)
                 .call(yAxis);
 
             svg
@@ -308,6 +338,7 @@ export class GardenEditor {
         //////////////////
         var slided = function () {
             cubeResolution = slider.property("value");
+            addRect();
         }
 
         var slider = d3.select(".button-container").append("input")
