@@ -2,8 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 
 import { NavController, NavParams, Slides } from 'ionic-angular';
 
-import { SessionDetailPage } from '../session-detail/session-detail';
-import { GardenEditor } from '../../components/garden-editor/garden-editor';
+import { SessionDetailPage } from '../../session-detail/session-detail';
+import { GardenEditor } from '../../../components/garden/garden-editor/garden-editor';
 
 @Component({
     selector: 'page-garden-detail',
@@ -11,7 +11,6 @@ import { GardenEditor } from '../../components/garden-editor/garden-editor';
 })
 export class GardenDetailPage {
     garden: any;
-    @ViewChild(Slides) slides: Slides;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
       this.garden = this.navParams.data.garden;
@@ -25,6 +24,5 @@ export class GardenDetailPage {
   }
   
   ngAfterContentInit() {
-      this.slides.lockSwipes(true);
   }
 }

@@ -15,16 +15,17 @@ import { AboutPage } from '../pages/about/about';
 import { PopoverPage } from '../pages/about-popover/about-popover';
 import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
-import { GardenPage } from '../pages/garden/garden';
-import { NewGardenPage } from '../pages/new-garden/new-garden';
+import { GardenListPage } from '../pages/garden/garden-list/garden-list';
+import { GardenEditorPage } from '../pages/garden/garden-editor/garden-editor';
+import { NewGardenPage } from '../pages/garden/new-garden/new-garden';
 import { SessionDetailPage } from '../pages/session-detail/session-detail';
 import { SignupPage } from '../pages/signup/signup';
-import { GardenDetailPage } from '../pages/garden-detail/garden-detail';
+import { GardenDetailPage } from '../pages/garden/garden-detail/garden-detail';
 import { TabsPage } from '../pages/tabs/tabs';
 import { SupportPage } from '../pages/support/support';
 
-import { GardenEditor } from '../components/garden-editor/garden-editor';
-import { GardenPresentation } from '../components/garden-presentation/garden-presentation';
+import { GardenEditor } from '../components/garden/garden-editor/garden-editor';
+import { GardenPresentation } from '../components/garden/garden-presentation/garden-presentation';
 
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
@@ -37,7 +38,7 @@ import { UserData } from '../providers/user-data';
     AccountPage,
     LoginPage,
     PopoverPage,
-    GardenPage,
+    GardenListPage,
     SignupPage,
     GardenDetailPage,
     TabsPage,
@@ -45,7 +46,8 @@ import { UserData } from '../providers/user-data';
     NewGardenPage,
     SessionDetailPage,
     GardenEditor,
-    GardenPresentation
+    GardenPresentation,
+    GardenEditorPage
   ],
   imports: [
     BrowserModule,
@@ -53,7 +55,7 @@ import { UserData } from '../providers/user-data';
     IonicModule.forRoot(ConferenceApp, {}, {
       links: [
         { component: TabsPage, name: 'TabsPage', segment: 'tabs' },
-        { component: GardenPage, name: 'Garden', segment: 'garden' },
+        { component: GardenListPage, name: 'GardenList', segment: 'garden' },
         { component: SessionDetailPage, name: 'SessionDetail', segment: 'sessionDetail/:name' },
         { component: GardenDetailPage, name: 'GardenDetail', segment: 'gardenDetail/:id' },
         { component: NewGardenPage, name: 'NewGarden', segment: 'new-garden' },
@@ -73,7 +75,7 @@ import { UserData } from '../providers/user-data';
     AccountPage,
     LoginPage,
     PopoverPage,
-    GardenPage,
+    GardenListPage,
     SessionDetailPage,
     SignupPage,
     GardenDetailPage,

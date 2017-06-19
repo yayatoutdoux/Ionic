@@ -1,9 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 
-import { ConferenceData } from '../../providers/conference-data';
+import { ConferenceData } from '../../../providers/conference-data';
 
-import { GardenPage } from '../garden/garden';
+import { GardenListPage } from '../garden-list/garden-list';
 
 import {
     ActionSheet, ActionSheetController, Config, AlertController, App, FabContainer, ItemSliding,
@@ -37,7 +37,7 @@ export class NewGardenPage {
             height: this.height,
             width: this.width
         });
-        this.navCtrl.push(GardenPage, {});
+        this.navCtrl.push(GardenListPage, {});
     }
     
 }

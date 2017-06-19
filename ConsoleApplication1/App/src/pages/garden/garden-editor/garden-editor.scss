@@ -1,0 +1,22 @@
+page-garden-editor {
+  img {
+      max-width: 140px !important;
+      border-radius: 50%;
+   }
+  p {
+      color: #60646B;
+  }
+  .p-lr-0 {
+      padding-left:0;
+      padding-right:0;
+  }
+  .scroll-content {
+    background: #EDEDED;
+    padding:0 !important;
+  }
+
+  .slide-zoom{
+      height:100%;
+      overflow-y: auto;
+    }
+}

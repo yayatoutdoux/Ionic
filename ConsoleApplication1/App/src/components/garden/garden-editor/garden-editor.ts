@@ -4,15 +4,15 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import * as d3 from 'd3';
 import * as textures from 'textures';
 
-import { Slides, ActionSheet, ActionSheetController, Config, AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, ToastController, LoadingController, Refresher } from 'ionic-angular';
+import { Slides, ActionSheetController, Config, AlertController, App, FabContainer, ItemSliding, List, ModalController, NavController, ToastController, LoadingController, Refresher } from 'ionic-angular';
 
 @Component({
   selector: 'garden-editor',
   templateUrl: 'garden-editor.html'
 })
+
 export class GardenEditor {
     @Input() garden : any;
-    @Input() slides: Slides;
 
     constructor(
     ) {
@@ -384,8 +384,5 @@ export class GardenEditor {
     }
 
     goToPresentation() {
-        this.slides.lockSwipes(false);
-        this.slides.slideTo(0);
-        this.slides.lockSwipes(true);
     }
 }

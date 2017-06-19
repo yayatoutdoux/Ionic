@@ -24,7 +24,6 @@ import { GardenDetailPage } from '../garden-detail/garden-detail';
 })
 export class GardenPresentation {
     @Input() garden : any;
-    @Input() slides: Slides;
 
     constructor(
     ) {
@@ -32,10 +31,6 @@ export class GardenPresentation {
     }
 
     openEditor() {
-        this.slides.lockSwipes(false);
-        
-        this.slides.slideTo(1);
-        this.slides.lockSwipes(true);
     }
 
     ngAfterContentInit()

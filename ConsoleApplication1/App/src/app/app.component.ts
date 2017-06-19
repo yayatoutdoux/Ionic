@@ -10,8 +10,9 @@ import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { TabsPage } from '../pages/tabs/tabs';
-import { GardenPage } from '../pages/garden/garden';
-import { NewGardenPage } from '../pages/new-garden/new-garden';
+import { GardenListPage } from '../pages/garden/garden-list/garden-list';
+import { NewGardenPage } from '../pages/garden/new-garden/new-garden';
+import { GardenDetailPage } from '../pages/garden/garden-detail/garden-detail';
 import { SupportPage } from '../pages/support/support';
 
 import { GardenEditor } from '../components/garden-editor/garden-editor';
@@ -43,7 +44,7 @@ export class ConferenceApp {
   // the left menu only works after login
   // the login page disables the left menu
   appPages: PageInterface[] = [
-    { title: 'Garden', name: 'TabsPage', component: TabsPage, tabComponent: GardenPage, index: 0, icon: 'rose' },
+    { title: 'Garden', name: 'TabsPage', component: TabsPage, tabComponent: GardenListPage, index: 0, icon: 'rose' },
     { title: 'About', name: 'TabsPage', component: TabsPage, tabComponent: AboutPage, index: 1, icon: 'information-circle' }
   ];
   loggedInPages: PageInterface[] = [
