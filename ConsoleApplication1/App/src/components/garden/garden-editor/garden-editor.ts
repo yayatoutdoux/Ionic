@@ -362,7 +362,7 @@ export class GardenEditor {
             addRect();
         }
 
-        var slider = d3.select(".button-container").append("input")
+        var slider = d3.select(".menu-container").append("input")
             .datum({})
             .attr("type", "range")
             .attr("value", 1)
