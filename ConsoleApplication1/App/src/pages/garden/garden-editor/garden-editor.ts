@@ -9,6 +9,7 @@ import { GardenEditor } from '../../../components/garden/garden-editor/garden-ed
     selector: 'page-garden-editor',
     templateUrl: 'garden-editor.html'
 })
+
 export class GardenEditorPage {
     garden: any;
 
