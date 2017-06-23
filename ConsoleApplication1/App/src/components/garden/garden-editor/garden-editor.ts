@@ -12,7 +12,7 @@ import { Slides, ActionSheetController, Config, AlertController, App, FabContain
 })
 
 export class GardenEditor {
-    @Input() garden : any;
+    @Input() garden: any;
 
     constructor(
     ) {
