@@ -19,6 +19,7 @@ garden-editor {
       stroke-opacity:0.3;
     }
 
+    .editor-container,
     svg,
     #chart-container {
         width: 100%;
@@ -30,7 +31,8 @@ garden-editor {
         border: 1px solid black;
     }
 
-    svg {
+    .editor-container {
+        display: block;
         height: 90%;
     }
     .scroll-content {
@@ -39,5 +41,9 @@ garden-editor {
 
     .menu-container{
         height: 10%;
+    }
+
+    svg{
+        height: 100%;
     }
 }

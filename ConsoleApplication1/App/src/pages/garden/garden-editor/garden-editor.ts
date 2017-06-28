@@ -14,20 +14,18 @@ export class GardenEditorPage {
     garden: any;
     @ViewChild(Slides) slides: Slides;
 
+    constructor(public navCtrl: NavController, public navParams: NavParams) {
+        this.garden = this.navParams.data.garden;
+    }
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-      this.garden = this.navParams.data.garden;
-  }
+    goToSessionDetail(session: any) {
+        this.navCtrl.push(SessionDetailPage, { 
+            name: session.name,
+            session: session
+        });
+    }
 
-  goToSessionDetail(session: any) {
-    this.navCtrl.push(SessionDetailPage, { 
-      name: session.name,
-      session: session
-    });
-  }
-
-  ngAfterContentInit() {
-      this.slides.lockSwipes(true);
-  }
-
+    ngAfterContentInit() {
+        this.slides.lockSwipes(true);
+    }
 }

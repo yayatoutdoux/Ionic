@@ -42,7 +42,7 @@ export class GardenEditorService {
 
     initSvg(garden:any) {
         //VARS////////////
-        this.containerStyle = document.querySelector('#chart-container').getBoundingClientRect();
+        this.containerStyle = document.querySelector('.editor-container').getBoundingClientRect();
         this.width = this.containerStyle.width;
         this.height = this.containerStyle.height;
         this.gardenHeight = garden.height;
@@ -151,7 +151,7 @@ export class GardenEditorService {
 
     //DRAW////////////
     draw() {
-        this.svg = d3.select("#chart-container").append('svg');
+        this.svg = d3.select(".editor-container").append('svg');
         this.svg.attr("width", this.width);
         this.svg.attr("height", this.height);
 

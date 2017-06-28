@@ -21,6 +21,10 @@ export class GardenEditor {
     }
 
     ngAfterContentInit() {
-        this.gardenEditorService.initSvg(this.garden);
+        //TODO problem with animation
+        setTimeout(() => {
+            this.gardenEditorService.initSvg(this.garden);
+        }, 30);
+
     }
 }
