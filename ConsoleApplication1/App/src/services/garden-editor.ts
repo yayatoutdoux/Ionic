@@ -101,14 +101,9 @@ export class GardenEditorService {
             .attr("step", 1)
             .on("input", this.slided());
 
-        //////////////////
         //PROCESS////////////
-        //////////////////
         this.draw();
-        this.resetted();
-    }
-
-    goToPresentation() {
+        this.resetted()();
     }
 
     private mouseLeave() {
@@ -238,7 +233,7 @@ export class GardenEditorService {
             .on('mouseenter', this.mouseEnter())
             .call(this.yAxis);
 
-        this.svg.call(this.zoom)
+        this.svg.call(this.zoom);
 
         if (this.currentTransform) {
             this.svg.call(this.zoom.transform, d3.zoomIdentity.translate(this.currentTransform.x, this.currentTransform.y).scale(this.currentTransform.k));
@@ -253,7 +248,7 @@ export class GardenEditorService {
     }
     private resetted() {
         let self = this; // object context to preserve
-        return function (d: any, i: any) {
+        return function () {
             self.svg.call(self.zoom.transform, d3.zoomIdentity.translate(0, 0).scale(self.scale - self.scale * 0.05));
         }
     }
