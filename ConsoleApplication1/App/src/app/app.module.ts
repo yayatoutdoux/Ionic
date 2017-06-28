@@ -27,6 +27,8 @@ import { SupportPage } from '../pages/support/support';
 import { GardenEditor } from '../components/garden/garden-editor/garden-editor';
 import { GardenPresentation } from '../components/garden/garden-presentation/garden-presentation';
 
+import { GardenEditorService } from '../services/garden-editor';
+
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
 
@@ -92,7 +94,8 @@ import { UserData } from '../providers/user-data';
     ConferenceData,
     UserData,
     InAppBrowser,
-    SplashScreen
+    SplashScreen,
+    GardenEditorService
   ]
 })
 export class AppModule { }

@@ -258,6 +258,7 @@
     <TypeScriptCompile Include="App\src\pages\garden\new-garden\new-garden.ts" />
     <TypeScriptCompile Include="App\src\components\garden\garden-editor\garden-editor.ts" />
     <TypeScriptCompile Include="App\src\pages\login\login.ts" />
+    <TypeScriptCompile Include="App\src\services\garden-editor.ts" />
     <TypeScriptCompile Include="example\map\map.ts" />
     <TypeScriptCompile Include="App\src\pages\garden\garden-list\garden-list.ts" />
     <TypeScriptCompile Include="example\schedule-filter\schedule-filter.ts" />
