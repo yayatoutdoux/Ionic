@@ -39,7 +39,7 @@ export class GardenEditorService {
     ) {
     }
 
-    initSvg(garden: any) {
+    public initSvg(garden: any) {
         //VARS////////////
         this.containerStyle = document.querySelector('.editor-container').getBoundingClientRect();
         this.width = this.containerStyle.width;
@@ -150,7 +150,7 @@ export class GardenEditorService {
     }
 
     //DRAW////////////
-    draw() {
+    public draw() {
         this.svg = d3.select(".editor-container").append('svg');
         this.svg.attr("width", this.width);
         this.svg.attr("height", this.height);
@@ -208,26 +208,20 @@ export class GardenEditorService {
             .on('mouseleave', this.mouseLeaveComplete())
             .on('mouseenter', this.mouseEnterComplete());
 
-        this.item = this.itemContainer.append('rect').attr('class', 'table-graphic')
+        this.item = this.itemContainer
+            .append('rect')
+            .attr('class', 'table-graphic')
             .attr('x', (d: any) => d.x)
             .attr('y', (d: any) => d.y)
             .attr('data-rotation', 0)
             .attr('width', (d: any) => d.res)
             .attr('height', (d: any) => d.res)
             .attr('fill', 'blue');
-        /*.on('click', function () {
-            this.selected = this.parentNode;
-        })*/
-
-        /*svg.call(zoom)
-            .on("wheel.zoom", null)
-            .on('dblclick.zoom', null);*/
 
         this.gX = this.svg.append("g")
             .attr("class", "axis axis--x").on('mouseleave', this.mouseLeave())
             .on('mouseenter', this.mouseEnter())
             .call(this.xAxis);
-
         this.gY = this.svg.append("g")
             .attr("class", "axis axis--y").on('mouseleave', this.mouseLeave())
             .on('mouseenter', this.mouseEnter())
@@ -253,7 +247,7 @@ export class GardenEditorService {
         }
     }
 
-    newItem(x: any, y: any) {
+    private newItem(x: any, y: any) {
         this.points.push({
             x: x,
             y: y,
@@ -298,7 +292,7 @@ export class GardenEditorService {
         }
     }
 
-    savePreviousDragPoint(el: any) {
+    private savePreviousDragPoint(el: any) {
         var elBox = el.nodes()[0].getBBox();
         if (!el.nodes()[0].classList.contains('dragging')) {
             this.previousDraggedPosition = {
