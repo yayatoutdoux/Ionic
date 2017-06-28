@@ -14,9 +14,10 @@ garden-editor {
     }
 
     .view-rect {
-      fill: none;
-      stroke: #000;
-      stroke-opacity:0.3;
+      fill: black;
+      fill-opacity:0.1;
+      stroke: none;
+      stroke-opacity:0;
     }
 
     .editor-container,

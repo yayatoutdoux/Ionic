@@ -31,6 +31,7 @@ export class NewGardenPage {
     ) { }
 
     createGarden() {
+        //Validation
         this.confData.createGarden({
             name: this.name,
             description: this.description,

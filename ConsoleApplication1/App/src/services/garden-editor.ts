@@ -40,7 +40,7 @@ export class GardenEditorService {
 
     }
 
-    initSvg(garden:any) {
+    initSvg(garden: any) {
         //VARS////////////
         this.containerStyle = document.querySelector('.editor-container').getBoundingClientRect();
         this.width = this.containerStyle.width;
@@ -136,6 +136,7 @@ export class GardenEditorService {
                 .on('mouseenter', null);
         }
     }
+
     private mouseEnterComplete() {
         let self = this; // object context to preserve
         return function (d: any, i: any) {
@@ -151,6 +152,10 @@ export class GardenEditorService {
 
     //DRAW////////////
     draw() {
+        console.log(this.gardenWidth);
+        console.log(this.gardenHeight);
+        console.log(this.height);
+        console.log(this.width);
         this.svg = d3.select(".editor-container").append('svg');
         this.svg.attr("width", this.width);
         this.svg.attr("height", this.height);
