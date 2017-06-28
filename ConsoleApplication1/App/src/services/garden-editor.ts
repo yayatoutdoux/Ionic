@@ -37,7 +37,6 @@ export class GardenEditorService {
 
     constructor(
     ) {
-
     }
 
     initSvg(garden: any) {
@@ -152,10 +151,6 @@ export class GardenEditorService {
 
     //DRAW////////////
     draw() {
-        console.log(this.gardenWidth);
-        console.log(this.gardenHeight);
-        console.log(this.height);
-        console.log(this.width);
         this.svg = d3.select(".editor-container").append('svg');
         this.svg.attr("width", this.width);
         this.svg.attr("height", this.height);
@@ -347,7 +342,7 @@ export class GardenEditorService {
         }
     }
 
-    clearDrawing() {
+    private clearDrawing() {
         if (this.draggedSvg)
             this.draggedSvg.remove();
         this.draggedSvg = null;
