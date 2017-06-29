@@ -239,6 +239,18 @@ export class GardenEditorService {
         }
     };
 
+    private clearDrawing() {
+        if (this.draggedSvg)
+            this.draggedSvg.remove();
+        this.draggedSvg = null;
+        if (this.svg) {
+            this.svg.on('mousedown', null);
+            this.view.exit().remove();
+            this.svg.remove();
+            this.svg = null;
+        }
+    }
+
     private transformItems() {
         let self = this;
         return function (d: any, i: any) {
@@ -248,16 +260,6 @@ export class GardenEditorService {
 
     public reset() {
         this.svg.call(this.zoom.transform, d3.zoomIdentity.translate(0, 0).scale(this.scale));
-    }
-
-    private newItem(x: any, y: any) {
-        this.points.push({
-            x: x,
-            y: y,
-            res: this.cubeResolution
-        });
-        this.clearDrawing();
-        this.draw();
     }
 
     //HELPERS////////////
@@ -331,6 +333,19 @@ export class GardenEditorService {
         }
     }
 
+    private putDragged() {
+        let self = this;
+        return function (d: any, i: any) {
+            console.log(this);
+            var mouse = d3.mouse(this);
+            if (self.draggedSvg && self.svg) {
+                self.newItem(self.snapToGrid(mouse[0], self.cubeResolution), self.snapToGrid(mouse[1], self.cubeResolution));
+            }
+            //self.addRect();
+            //self.moveRect(mouse);
+        }
+    }
+    //SLIDER//////
     private slided() {
         let self = this;
         return function (d: any, i: any) {
@@ -339,28 +354,15 @@ export class GardenEditorService {
         }
     }
 
-    private clearDrawing() {
-        if (this.draggedSvg)
-            this.draggedSvg.remove();
-        this.draggedSvg = null;
-        if (this.svg) {
-            this.svg.on('mousedown', null);
-            this.view.exit().remove();
-            this.svg.remove();
-            this.svg = null;
-        }
-    }
-
-    private putDragged() {
-        let self = this;
-        return function (d: any, i: any) {
-            var mouse = d3.mouse(this);
-            if (self.draggedSvg && self.svg) {
-                self.newItem(self.snapToGrid(mouse[0], self.cubeResolution), self.snapToGrid(mouse[1], self.cubeResolution));
-            }
-            self.addRect();
-            self.moveRect(mouse);
-        }
+    //ADD RECT
+    private newItem(x: any, y: any) {
+        this.points.push({
+            x: x,
+            y: y,
+            res: this.cubeResolution
+        });
+        this.clearDrawing();
+        this.draw();
     }
 
     public addRect() {
@@ -380,17 +382,7 @@ export class GardenEditorService {
             .style("visibility", this.hidden ? "hidden" : "visible");
     }
 
-    private zoomed() {
-        let self = this;
-        return function (d: any, i: any) {
-            self.currentTransform = d3.event.transform;
-            self.view.attr("transform", d3.event.transform);
-            self.gX.call(self.xAxis.scale(d3.event.transform.rescaleX(self.xScale)));
-            self.gY.call(self.yAxis.scale(d3.event.transform.rescaleY(self.yScale)));
-        }
-    }
-
-    //ADD RECT////////////
+    //MOVE RECT////////////
     private moveRect(mouse: any) {
         if (this.draggedSvg) {
             var x = mouse[0] - this.cubeResolution / 2;
@@ -407,6 +399,17 @@ export class GardenEditorService {
             if (self.draggedSvg) {
                 self.moveRect(mouse);
             }
+        }
+    }
+
+    //ZOOM
+    private zoomed() {
+        let self = this;
+        return function (d: any, i: any) {
+            self.currentTransform = d3.event.transform;
+            self.view.attr("transform", d3.event.transform);
+            self.gX.call(self.xAxis.scale(d3.event.transform.rescaleX(self.xScale)));
+            self.gY.call(self.yAxis.scale(d3.event.transform.rescaleY(self.yScale)));
         }
     }
 }

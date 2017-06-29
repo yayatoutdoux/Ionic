@@ -24,7 +24,7 @@ export class GardenEditor {
         //TODO problem with animation
         setTimeout(() => {
             this.gardenEditorService.initSvg(this.garden);
-        }, 30);
+        }, 100);
     }
 
     private reset() {
