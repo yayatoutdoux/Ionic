@@ -87,6 +87,7 @@ export class GardenEditorService {
         this.scaleY = this.height / this.gardenHeight;
         this.scale = Math.min(Math.min(this.scaleX, this.scaleY), 40);
 
+        //BUTTONS////////////
         d3.select(".bt2").on("click", this.addRect());
         d3.select(".bt").on("click", this.resetted());
 
@@ -105,8 +106,9 @@ export class GardenEditorService {
         this.resetted()();
     }
 
+    //MOUSE
     private mouseLeave() {
-        let self = this; // object context to preserve
+        let self = this;
         return function (d: any, i: any) {
             self.hidden = false;
             if (self.draggedSvg)
@@ -115,7 +117,7 @@ export class GardenEditorService {
     }
 
     private mouseEnter() {
-        let self = this; // object context to preserve
+        let self = this;
         return function (d: any, i: any) {
             self.hidden = false;
             if (self.draggedSvg)
@@ -124,7 +126,7 @@ export class GardenEditorService {
     }
 
     private mouseLeaveComplete() {
-        let self = this; // object context to preserve
+        let self = this;
         return function (d: any, i: any) {
             self.hidden = false;
             if (self.draggedSvg)
@@ -137,7 +139,7 @@ export class GardenEditorService {
     }
 
     private mouseEnterComplete() {
-        let self = this; // object context to preserve
+        let self = this;
         return function (d: any, i: any) {
             self.hidden = false;
             if (self.draggedSvg)
@@ -235,15 +237,15 @@ export class GardenEditorService {
     };
 
     private transformItems() {
-        let self = this; // object context to preserve
+        let self = this;
         return function (d: any, i: any) {
             return 'translate(' + self.xScale(0) + ',' + self.yScale(0) + ')';
         }
     }
     private resetted() {
-        let self = this; // object context to preserve
+        let self = this;
         return function () {
-            self.svg.call(self.zoom.transform, d3.zoomIdentity.translate(0, 0).scale(self.scale - self.scale * 0.05));
+            self.svg.call(self.zoom.transform, d3.zoomIdentity.translate(0, 0).scale(self.scale));
         }
     }
 
@@ -259,7 +261,7 @@ export class GardenEditorService {
 
     //HELPERS////////////
     snapToGrid(p: any, r: any) {
-        return Math.max(Math.floor(p)/* / r) * r*/, 0);
+        return Math.max(Math.floor(p), 0);
     }
 
     coorNum(pt: any) {
@@ -283,7 +285,7 @@ export class GardenEditorService {
 
     //DRAG N DROP////////////
     private dragstarted() {
-        let self = this; // object context to preserve
+        let self = this;
         return function (d: any, i: any) {
             var el = d3.select(this);
             self.savePreviousDragPoint(el);
@@ -302,7 +304,7 @@ export class GardenEditorService {
     }
 
     private dragged() {
-        let self = this; // object context to preserve
+        let self = this;
         return function (d: any, i: any) {
             self.selected = this;
             /*var el = */d3.select(this)
@@ -313,7 +315,7 @@ export class GardenEditorService {
     }
 
     private dragended() {
-        let self = this; // object context to preserve
+        let self = this;
         return function (d: any, i: any) {
             d3.select(this).classed("dragging", false);
             var newEl = d3.select(this).select('.table-graphic');
@@ -327,8 +329,9 @@ export class GardenEditorService {
             };
         }
     }
+
     private slided() {
-        let self = this; // object context to preserve
+        let self = this;
         return function (d: any, i: any) {
             self.cubeResolution = self.slider.property("value");
             self.addRect();
@@ -348,7 +351,7 @@ export class GardenEditorService {
     }
 
     private putDragged() {
-        let self = this; // object context to preserve
+        let self = this;
         return function (d: any, i: any) {
             var mouse = d3.mouse(this);
             if (self.draggedSvg && self.svg) {
@@ -360,7 +363,7 @@ export class GardenEditorService {
     }
 
     private addRect() {
-        let self = this; // object context to preserve
+        let self = this;
         return function (d: any, i: any) {
             self.draggedSvg = self.backdropContainer
                 .append('rect')
@@ -376,7 +379,7 @@ export class GardenEditorService {
     }
 
     private zoomed() {
-        let self = this; // object context to preserve
+        let self = this;
         return function (d: any, i: any) {
             self.currentTransform = d3.event.transform;
             self.view.attr("transform", d3.event.transform);
@@ -396,7 +399,7 @@ export class GardenEditorService {
     };
 
     private moveDragged() {
-        let self = this; // object context to preserve
+        let self = this;
         return function (d: any, i: any) {
             var mouse = d3.mouse(this);
             if (self.draggedSvg) {
