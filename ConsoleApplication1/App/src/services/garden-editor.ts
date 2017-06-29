@@ -5,6 +5,7 @@ import * as textures from 'textures';
 
 @Injectable()
 export class GardenEditorService {
+    garden: any = null;
     containerStyle: any = null;
     svg: any = null;
     view: any = null;
@@ -41,11 +42,12 @@ export class GardenEditorService {
 
     public initSvg(garden: any) {
         //VARS////////////
+        this.garden = garden;
         this.containerStyle = document.querySelector('.editor-container').getBoundingClientRect();
         this.width = this.containerStyle.width;
         this.height = this.containerStyle.height;
-        this.gardenHeight = garden.height;
-        this.gardenWidth = garden.width;
+        this.gardenHeight = this.garden.height;
+        this.gardenWidth = this.garden.width;
         this.svg = null;
         this.view = null;
         this.gX = null;
@@ -87,10 +89,6 @@ export class GardenEditorService {
         this.scaleY = this.height / this.gardenHeight;
         this.scale = Math.min(Math.min(this.scaleX, this.scaleY), 40);
 
-        //BUTTONS////////////
-        d3.select(".bt2").on("click", this.addRect());
-        d3.select(".bt").on("click", this.resetted());
-
         //SLIDER////////////
         this.slider = d3.select(".menu-container").append("input")
             .datum({})
@@ -103,7 +101,12 @@ export class GardenEditorService {
 
         //PROCESS////////////
         this.draw();
-        this.resetted()();
+        this.reset();
+    }
+
+    //SAVE
+    public save() {
+        alert();
     }
 
     //MOUSE
@@ -242,11 +245,9 @@ export class GardenEditorService {
             return 'translate(' + self.xScale(0) + ',' + self.yScale(0) + ')';
         }
     }
-    private resetted() {
-        let self = this;
-        return function () {
-            self.svg.call(self.zoom.transform, d3.zoomIdentity.translate(0, 0).scale(self.scale));
-        }
+
+    public reset() {
+        this.svg.call(this.zoom.transform, d3.zoomIdentity.translate(0, 0).scale(this.scale));
     }
 
     private newItem(x: any, y: any) {
@@ -260,18 +261,18 @@ export class GardenEditorService {
     }
 
     //HELPERS////////////
-    snapToGrid(p: any, r: any) {
+    private snapToGrid(p: any, r: any) {
         return Math.max(Math.floor(p), 0);
     }
 
-    coorNum(pt: any) {
+    private coorNum(pt: any) {
         return {
             x: parseInt(pt.x, 10),
             y: parseInt(pt.y, 10)
         };
     }
 
-    findAndUpdate(oldPt: any, newPt: any) {
+    private findAndUpdate(oldPt: any, newPt: any) {
         for (var i = 0; i < this.points.length; i++) {
             if (this.points[i].x === oldPt.x && this.points[i].y === oldPt.y) {
                 this.points[i] = {
@@ -362,20 +363,21 @@ export class GardenEditorService {
         }
     }
 
-    private addRect() {
-        let self = this;
-        return function (d: any, i: any) {
-            self.draggedSvg = self.backdropContainer
-                .append('rect')
-                .attr('width', self.cubeResolution)
-                .attr('height', self.cubeResolution)
-                .on('mousedown', self.putDragged())
-                .on('mousemove', self.moveDragged())
-                .on('mouseleave', self.mouseLeave())
-                .on('mouseenter', self.mouseEnter())
-                .attr('fill', 'blue')
-                .style("visibility", self.hidden ? "hidden" : "visible");
+    public addRect() {
+        if (this.draggedSvg) {
+            this.draggedSvg = null;
+            return;
         }
+        this.draggedSvg = this.backdropContainer
+            .append('rect')
+            .attr('width', this.cubeResolution)
+            .attr('height', this.cubeResolution)
+            .on('mousedown', this.putDragged())
+            .on('mousemove', this.moveDragged())
+            .on('mouseleave', this.mouseLeave())
+            .on('mouseenter', this.mouseEnter())
+            .attr('fill', 'blue')
+            .style("visibility", this.hidden ? "hidden" : "visible");
     }
 
     private zoomed() {
@@ -389,7 +391,7 @@ export class GardenEditorService {
     }
 
     //ADD RECT////////////
-    moveRect(mouse: any) {
+    private moveRect(mouse: any) {
         if (this.draggedSvg) {
             var x = mouse[0] - this.cubeResolution / 2;
             var y = mouse[1] - this.cubeResolution / 2;

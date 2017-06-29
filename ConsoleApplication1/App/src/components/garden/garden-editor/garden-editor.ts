@@ -25,6 +25,15 @@ export class GardenEditor {
         setTimeout(() => {
             this.gardenEditorService.initSvg(this.garden);
         }, 30);
+    }
 
+    private reset() {
+        this.gardenEditorService.reset();
+    }
+    private save() {
+        this.gardenEditorService.save();
+    }
+    private addRect() {
+        this.gardenEditorService.addRect();
     }
 }
