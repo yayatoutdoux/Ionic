@@ -61,7 +61,7 @@ export class GardenEditorService {
         this.selected = null;
         this.previousDraggedPosition = null;
         this.cubeResolution = 1;
-        this.points = [];
+        this.points = this.garden.points;
         this.xScale = null;
         this.yScale = null;
         this.xAxis = null;
@@ -106,7 +106,7 @@ export class GardenEditorService {
 
     //SAVE
     public save() {
-        alert();
+        
     }
 
     //MOUSE
@@ -178,7 +178,7 @@ export class GardenEditorService {
             .attr("y", 0)
             .attr("width", this.gardenWidth * this.xScale(1))
             .attr("height", this.gardenHeight * this.yScale(1));
-
+        console.log(this.points);
         this.itemContainer = this.view.selectAll("g").attr("class", "itemContainer")
             .data(this.points).enter().append('g')
             .attr("transform", this.transformItems())

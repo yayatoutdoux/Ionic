@@ -25,40 +25,7 @@ export class ConferenceData {
   }
 
   processData(data: any) {
-    // just some good 'ol JS fun with objects and arrays
-    // build up the data by linking speakers to sessions
     this.data = data.json();
-
-    this.data.tracks = [];
-
-    // loop through each day in the schedule
-    this.data.schedule.forEach((day: any) => {
-      // loop through each timeline group in the day
-      day.groups.forEach((group: any) => {
-        // loop through each session in the timeline group
-        group.sessions.forEach((session: any) => {
-          session.speakers = [];
-          if (session.speakerNames) {
-            session.speakerNames.forEach((speakerName: any) => {
-              let speaker = this.data.speakers.find((s: any) => s.name === speakerName);
-              if (speaker) {
-                session.speakers.push(speaker);
-                speaker.sessions = speaker.sessions || [];
-                speaker.sessions.push(session);
-              }
-            });
-          }
-
-          if (session.tracks) {
-            session.tracks.forEach((track: any) => {
-              if (this.data.tracks.indexOf(track) < 0) {
-                this.data.tracks.push(track);
-              }
-            });
-          }
-        });
-      });
-    });
 
     return this.data;
   }
@@ -130,16 +97,6 @@ export class ConferenceData {
     session.hide = !(matchesQueryText && matchesTracks && matchesSegment);
   }
 
-  getSpeakers() {
-    return this.load().map((data: any) => {
-      return data.speakers.sort((a: any, b: any) => {
-        let aName = a.name.split(' ').pop();
-        let bName = b.name.split(' ').pop();
-        return aName.localeCompare(bName);
-      });
-    });
-  }
-
   getGardens() {
       return this.load().map((data: any) => {
           data.gardens.forEach((e:any) => {
@@ -163,18 +120,6 @@ export class ConferenceData {
       return elem;
   }
 
-  getTracks() {
-    return this.load().map((data: any) => {
-      return data.tracks.sort();
-    });
-  }
-
-  getMap() {
-    return this.load().map((data: any) => {
-      return data.map;
-    });
-  }
-
   deleteGardenById(id : any) {
       for (var i = 0; i < this.data.gardens.length; i++) {
           if (this.data.gardens[i].id == id) {
@@ -186,10 +131,10 @@ export class ConferenceData {
 
   createGarden(garden: any) {
       garden.plantIds = [];
+      garden.points = [];
       garden.profilePic = "assets/img/speakers/mouse.jpg";
       garden.id = this.data.gardens[this.data.gardens.length - 1].id + 1;
       this.data.gardens.push(garden);
       return garden;
   }
-
 }
