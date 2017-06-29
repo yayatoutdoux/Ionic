@@ -85,7 +85,7 @@ export class GardenEditorService {
 
         this.scaleX = this.width / this.gardenWidth;
         this.scaleY = this.height / this.gardenHeight;
-        this.scale = Math.min(this.scaleX, this.scaleY);
+        this.scale = Math.min(Math.min(this.scaleX, this.scaleY), 40);
 
         d3.select(".bt2").on("click", this.addRect());
         d3.select(".bt").on("click", this.resetted());
@@ -256,7 +256,6 @@ export class GardenEditorService {
         this.clearDrawing();
         this.draw();
     }
-
 
     //HELPERS////////////
     snapToGrid(p: any, r: any) {

@@ -3,7 +3,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { ConferenceData } from '../../../providers/conference-data';
 
-import { GardenListPage } from '../garden-list/garden-list';
+import { GardenEditorPage } from '../garden-editor/garden-editor';
 
 import {
     ActionSheet, ActionSheetController, Config, AlertController, App, FabContainer, ItemSliding,
@@ -32,13 +32,13 @@ export class NewGardenPage {
 
     createGarden() {
         //Validation
-        this.confData.createGarden({
+        let garden = this.confData.createGarden({
             name: this.name,
             description: this.description,
             height: this.height,
             width: this.width
         });
-        this.navCtrl.push(GardenListPage, {});
+        this.navCtrl.push(GardenEditorPage, {garden:garden, step:1});
     }
     
 }
