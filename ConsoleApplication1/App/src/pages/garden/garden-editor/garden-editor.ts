@@ -3,6 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Slides, NavController, NavParams } from 'ionic-angular';
 
 import { SessionDetailPage } from '../../session-detail/session-detail';
+import { GardenListPage } from '../../garden/garden-list/garden-list';
 import { GardenEditor } from '../../../components/garden/garden-editor/garden-editor';
 
 @Component({
@@ -12,10 +13,12 @@ import { GardenEditor } from '../../../components/garden/garden-editor/garden-ed
 
 export class GardenEditorPage {
     garden: any;
+    step = 0;
     @ViewChild(Slides) slides: Slides;
 
     constructor(public navCtrl: NavController, public navParams: NavParams) {
         this.garden = this.navParams.data.garden;
+        this.step = this.navParams.data.step;
     }
 
     goToSessionDetail(session: any) {
@@ -24,6 +27,11 @@ export class GardenEditorPage {
             session: session
         });
     }
+
+    goToGardenList() {
+        this.navCtrl.popToRoot();
+    }
+
 
     ngAfterContentInit() {
         this.slides.lockSwipes(true);

@@ -25,7 +25,8 @@ export class GardenPresentation {
 
     openEditor() {
         this.navCtrl.push(GardenEditorPage, {
-            garden: this.garden
+            garden: this.garden,
+            step: 0
         });
     }
 

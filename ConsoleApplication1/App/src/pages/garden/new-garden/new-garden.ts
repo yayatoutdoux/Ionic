@@ -30,7 +30,7 @@ export class NewGardenPage {
         public alertCtrl: AlertController
     ) { }
 
-    createGarden() {
+    nextStep() {
         //Validation
         let garden = this.confData.createGarden({
             name: this.name,

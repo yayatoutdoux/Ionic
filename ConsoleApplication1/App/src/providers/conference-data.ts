@@ -137,4 +137,12 @@ export class ConferenceData {
       this.data.gardens.push(garden);
       return garden;
   }
+
+  saveGarden(garden: any) {
+      for (var i = 0; i < this.data.gardens.length; i++) {
+          if (this.data.gardens[i].id == garden.id) {
+              this.data.gardens[i] = garden;
+          }
+      }
+  }
 }

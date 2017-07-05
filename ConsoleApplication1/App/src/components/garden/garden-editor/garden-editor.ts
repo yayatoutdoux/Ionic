@@ -30,9 +30,11 @@ export class GardenEditor {
     private reset() {
         this.gardenEditorService.reset();
     }
+
     private save() {
-        this.gardenEditorService.save();
+        this.gardenEditorService.save(this.garden);
     }
+
     private addRect() {
         this.gardenEditorService.addRect();
     }

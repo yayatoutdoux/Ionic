@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ConferenceData } from '../providers/conference-data';
 
 import * as d3 from 'd3';
 import * as textures from 'textures';
@@ -36,7 +37,7 @@ export class GardenEditorService {
     slider: any = null;
     hidden = false;
 
-    constructor(
+    constructor(public conferenceData: ConferenceData
     ) {
     }
 
@@ -105,8 +106,8 @@ export class GardenEditorService {
     }
 
     //SAVE
-    public save() {
-        
+    public save(garden:any) {
+        this.conferenceData.saveGarden(garden);
     }
 
     //MOUSE
@@ -178,7 +179,7 @@ export class GardenEditorService {
             .attr("y", 0)
             .attr("width", this.gardenWidth * this.xScale(1))
             .attr("height", this.gardenHeight * this.yScale(1));
-        console.log(this.points);
+
         this.itemContainer = this.view.selectAll("g").attr("class", "itemContainer")
             .data(this.points).enter().append('g')
             .attr("transform", this.transformItems())
@@ -237,6 +238,7 @@ export class GardenEditorService {
         if (this.currentTransform) {
             this.svg.call(this.zoom.transform, d3.zoomIdentity.translate(this.currentTransform.x, this.currentTransform.y).scale(this.currentTransform.k));
         }
+        
     };
 
     private clearDrawing() {
@@ -336,7 +338,6 @@ export class GardenEditorService {
     private putDragged() {
         let self = this;
         return function (d: any, i: any) {
-            console.log(this);
             var mouse = d3.mouse(this);
             if (self.draggedSvg && self.svg) {
                 self.newItem(self.snapToGrid(mouse[0], self.cubeResolution), self.snapToGrid(mouse[1], self.cubeResolution));
