@@ -142,6 +142,7 @@ export class ConferenceData {
       for (var i = 0; i < this.data.gardens.length; i++) {
           if (this.data.gardens[i].id == garden.id) {
               this.data.gardens[i] = garden;
+              break;
           }
       }
   }

@@ -386,8 +386,8 @@ export class GardenEditorService {
     //MOVE RECT////////////
     private moveRect(mouse: any) {
         if (this.draggedSvg) {
-            var x = mouse[0] - this.cubeResolution / 2;
-            var y = mouse[1] - this.cubeResolution / 2;
+            var x = mouse[0];
+            var y = mouse[1];
             this.draggedSvg.attr('x', x);
             this.draggedSvg.attr('y', y);
         }

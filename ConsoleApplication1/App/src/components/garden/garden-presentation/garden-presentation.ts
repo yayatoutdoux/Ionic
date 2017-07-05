@@ -20,7 +20,6 @@ export class GardenPresentation {
     constructor(
         public navCtrl: NavController
     ) {
-        
     }
 
     openEditor() {
