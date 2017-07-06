@@ -54,7 +54,7 @@ import { UserData } from '../providers/user-data';
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(ConferenceApp, {}, {
+    IonicModule.forRoot(ConferenceApp, { tabsHideOnSubPages: true }, {
       links: [
         { component: TabsPage, name: 'TabsPage', segment: 'tabs' },
         { component: GardenListPage, name: 'GardenList', segment: 'garden' },
