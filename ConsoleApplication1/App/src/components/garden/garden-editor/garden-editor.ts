@@ -15,6 +15,8 @@ import { GardenEditorService } from '../../../services/garden-editor';
 
 export class GardenEditor {
     @Input() garden: any;
+    soilTypes:string[] = ["green", "black", "blue"];
+    selectedSoilType:string = "green";
 
     constructor(public gardenEditorService: GardenEditorService
     ) {
@@ -37,5 +39,9 @@ export class GardenEditor {
 
     private addRect() {
         this.gardenEditorService.addRect();
+    }
+
+    private onSelectSoilType(soilType: any) {
+        this.gardenEditorService.setSoilType(soilType);
     }
 }

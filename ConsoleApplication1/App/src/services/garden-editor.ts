@@ -7,6 +7,8 @@ import * as textures from 'textures';
 @Injectable()
 export class GardenEditorService {
     garden: any = null;
+    soilType: any = "green";
+
     containerStyle: any = null;
     svg: any = null;
     view: any = null;
@@ -73,6 +75,8 @@ export class GardenEditorService {
         this.scale = null;
         this.slider = null;
         this.hidden = false;
+        this.soilType = "green";
+
 
         //AXIS////////////
         this.xScale = d3.scaleLinear().domain([0, this.width]).range([0, this.width]);
@@ -222,7 +226,7 @@ export class GardenEditorService {
             .attr('data-rotation', 0)
             .attr('width', (d: any) => d.res)
             .attr('height', (d: any) => d.res)
-            .attr('fill', 'blue');
+            .attr('fill', (d: any) => d.type);
 
         this.gX = this.svg.append("g")
             .attr("class", "axis axis--x").on('mouseleave', this.mouseLeave())
@@ -351,16 +355,22 @@ export class GardenEditorService {
         let self = this;
         return function (d: any, i: any) {
             self.cubeResolution = self.slider.property("value");
-            self.addRect();
+            if(this.draggedSvg)
+                self.addRect();
         }
     }
 
     //ADD RECT
+    public setSoilType(soilType: any) {
+        this.soilType = soilType;
+    }
+
     private newItem(x: any, y: any) {
         this.points.push({
             x: x,
             y: y,
-            res: this.cubeResolution
+            res: this.cubeResolution,
+            type: this.soilType
         });
         this.clearDrawing();
         this.draw();
@@ -379,7 +389,7 @@ export class GardenEditorService {
             .on('mousemove', this.moveDragged())
             .on('mouseleave', this.mouseLeave())
             .on('mouseenter', this.mouseEnter())
-            .attr('fill', 'blue')
+            .attr('fill', this.soilType)
             .style("visibility", this.hidden ? "hidden" : "visible");
     }
 
